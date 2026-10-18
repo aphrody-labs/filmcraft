@@ -2098,6 +2098,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "filmcraft-lib"
+version = "0.7.2"
+dependencies = [
+ "filmcraft-codecs",
+ "filmcraft-color",
+ "filmcraft-export",
+ "filmcraft-frame",
+ "filmcraft-h264enc",
+ "filmcraft-isobmff",
+ "filmcraft-matroska",
+ "filmcraft-media",
+ "filmcraft-testkit",
+ "filmcraft-time",
+ "image",
+ "web-time",
+]
+
+[[package]]
 name = "filmcraft-matroska"
 version = "0.7.2"
 dependencies = [

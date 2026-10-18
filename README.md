@@ -316,6 +316,31 @@ A layered Cargo workspace:
 
 Nothing below the front ends depends on a UI toolkit or OS API. `cargo xtask ci` checks formatting, lints, tests, the layering rules, asset attribution and the wasm build.
 
+## Use it as a library
+
+The codecs, containers and encoders are also a plain Rust library, without the editor: add
+`filmcraft-lib` and probe files (exact frame counts and timestamps, colour, HDR), decode any frame or
+audio window, copy packets between MP4/MOV and Matroska/WebM, cut CMAF segments for HLS, and encode
+H.264, ProRes, DNxHR, APV, Motion-JPEG, AAC, GIF, PNG and WAV. No FFmpeg, no `unsafe`, no UI, GPU or
+speech crates in its dependency tree, and every call takes cancellation, a deadline and size limits.
+
+```toml
+filmcraft-lib = { git = "https://github.com/aphrody-labs/filmcraft", package = "filmcraft-lib" }
+```
+
+```rust
+use filmcraft_lib::{Control, Limits, MediaFile, Tick, probe_path};
+
+let ctl = Control::default();
+let p = probe_path("clip.mkv".as_ref(), &Limits::default(), &ctl)?;
+println!("{} frames", p.frame_count().map_or(0, |c| c.value()));
+let file = MediaFile::open_path("clip.mkv".as_ref(), &Limits::default(), &ctl)?;
+let frame = file.frame_at(Tick::from_seconds_f64(1.5), &ctl)?;
+```
+
+See [LIBRARY.md](LIBRARY.md) for the API surface, stability policy, supported codecs and roadmap, and
+[crates/lib/README.md](crates/lib/README.md) for the guide.
+
 ## Downloads
 
 **New to FilmCraft?** Download it from the [FilmCraft page on getartcraft.com](https://getartcraft.com/apps/filmcraft). That's the easiest way to install it.
