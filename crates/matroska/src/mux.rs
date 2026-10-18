@@ -34,6 +34,11 @@ pub struct TrackSpec {
     pub audio: Option<(f64, u64, Option<u64>)>,
     pub codec_delay_ns: u64,
     pub seek_pre_roll_ns: u64,
+    /// Display size in pixels for video tracks whose pixels are not square (`DisplayWidth` /
+    /// `DisplayHeight`); `None` writes none.
+    pub display_size: Option<(u32, u32)>,
+    /// Colour description and HDR static metadata of a video track (`Colour` element).
+    pub colour: Option<crate::track::Colour>,
 }
 
 impl TrackSpec {
@@ -49,6 +54,8 @@ impl TrackSpec {
             audio: None,
             codec_delay_ns: 0,
             seek_pre_roll_ns: 0,
+            display_size: None,
+            colour: None,
         }
     }
 }
@@ -108,6 +115,51 @@ fn void(out: &mut Vec<u8>, total: usize) {
     write_id(out, VOID);
     write_size(out, (total - 1 - sl) as u64, sl);
     out.resize(out.len() + total - 1 - sl, 0);
+}
+
+/// The children of a `Colour` element.
+fn colour_element(c: &crate::track::Colour) -> Vec<u8> {
+    let mut o = Vec::new();
+    let uints = [
+        (MATRIX_COEFFICIENTS, c.matrix_coefficients),
+        (BITS_PER_CHANNEL, c.bits_per_channel),
+        (CHROMA_SUBSAMPLING_HORZ, c.chroma_subsampling_horz),
+        (CHROMA_SUBSAMPLING_VERT, c.chroma_subsampling_vert),
+        (CB_SUBSAMPLING_HORZ, c.cb_subsampling_horz),
+        (CB_SUBSAMPLING_VERT, c.cb_subsampling_vert),
+        (CHROMA_SITING_HORZ, c.chroma_siting_horz),
+        (CHROMA_SITING_VERT, c.chroma_siting_vert),
+        (RANGE, c.range),
+        (TRANSFER_CHARACTERISTICS, c.transfer_characteristics),
+        (PRIMARIES, c.primaries),
+        (MAX_CLL, c.max_cll),
+        (MAX_FALL, c.max_fall),
+    ];
+    for (id, v) in uints {
+        if let Some(v) = v {
+            el_uint(&mut o, id, v);
+        }
+    }
+    if let Some(m) = &c.mastering {
+        let mut md = Vec::new();
+        let [r, g, b] = m.primaries;
+        for (id, v) in [
+            (PRIMARY_R_X, r.0),
+            (PRIMARY_R_Y, r.1),
+            (PRIMARY_G_X, g.0),
+            (PRIMARY_G_Y, g.1),
+            (PRIMARY_B_X, b.0),
+            (PRIMARY_B_Y, b.1),
+            (WHITE_POINT_X, m.white_point.0),
+            (WHITE_POINT_Y, m.white_point.1),
+            (LUMINANCE_MAX, m.luminance_max),
+            (LUMINANCE_MIN, m.luminance_min),
+        ] {
+            el_float(&mut md, id, v);
+        }
+        el(&mut o, MASTERING_METADATA, &md);
+    }
+    o
 }
 
 #[derive(Clone, Debug)]
@@ -220,6 +272,13 @@ impl<W: Write + Seek> MkvWriter<W> {
                 let mut v = Vec::new();
                 el_uint(&mut v, PIXEL_WIDTH, pw as u64);
                 el_uint(&mut v, PIXEL_HEIGHT, ph as u64);
+                if let Some((dw, dh)) = t.display_size.filter(|(w, h)| *w > 0 && *h > 0 && (*w, *h) != (pw, ph)) {
+                    el_uint(&mut v, DISPLAY_WIDTH, dw as u64);
+                    el_uint(&mut v, DISPLAY_HEIGHT, dh as u64);
+                }
+                if let Some(c) = &t.colour {
+                    el(&mut v, COLOUR, &colour_element(c));
+                }
                 el(&mut e, VIDEO, &v);
             }
             if let Some((rate, ch, bits)) = t.audio {

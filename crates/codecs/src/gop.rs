@@ -259,6 +259,39 @@ const HARD_DECODERS: usize = 8;
 /// nobody was looking at.
 pub const FRAME_BUDGET: usize = 1 << 30;
 
+/// Each cache's own frame budget unless [`set_frame_budget`] lowers it.
+const CACHE_BUDGET: usize = 384 << 20;
+
+/// The pool of every cache in the process, created by the first cache.
+static GLOBAL_POOL: std::sync::OnceLock<Arc<Pool>> = std::sync::OnceLock::new();
+
+/// The process-wide frame budget [`set_frame_budget`] asked for (0 = the defaults).
+static CONFIGURED_BUDGET: AtomicUsize = AtomicUsize::new(0);
+
+/// Lower the memory decoded frames may occupy: the shared budget of all caches becomes `bytes`
+/// (at most [`FRAME_BUDGET`]) and no single source keeps more than `bytes` either. Libraries and
+/// servers that open many sources call this once at startup; the shared pool is created when the
+/// first source is opened, so a later call returns `false` and changes nothing for that pool
+/// (caches created afterwards still honour the lower per-source budget).
+pub fn set_frame_budget(bytes: usize) -> bool {
+    CONFIGURED_BUDGET.store(bytes.max(1), Ordering::Relaxed);
+    GLOBAL_POOL.get().is_none()
+}
+
+fn shared_budget() -> usize {
+    match CONFIGURED_BUDGET.load(Ordering::Relaxed) {
+        0 => FRAME_BUDGET,
+        n => n.min(FRAME_BUDGET),
+    }
+}
+
+fn cache_budget() -> usize {
+    match CONFIGURED_BUDGET.load(Ordering::Relaxed) {
+        0 => CACHE_BUDGET,
+        n => n.min(CACHE_BUDGET),
+    }
+}
+
 /// What the caches of a process share: the cap on live decoders and the frame budget.
 struct Pool {
     caches: Mutex<Vec<Weak<Shared>>>,
@@ -321,8 +354,7 @@ impl Pool {
 
     /// The pool of every cache in the process.
     fn global() -> Arc<Pool> {
-        static POOL: std::sync::OnceLock<Arc<Pool>> = std::sync::OnceLock::new();
-        POOL.get_or_init(|| Arc::new(Pool::new(MAX_LIVE_DECODERS, IDLE, FRAME_BUDGET).tiered(RECENT, HARD_DECODERS))).clone()
+        GLOBAL_POOL.get_or_init(|| Arc::new(Pool::new(MAX_LIVE_DECODERS, IDLE, shared_budget()).tiered(RECENT, HARD_DECODERS))).clone()
     }
 
     fn register(&self, c: &Arc<Shared>) {
@@ -519,7 +551,7 @@ impl GopCache {
             pool: pool.clone(),
         });
         pool.register(&shared);
-        Self { shared, explicit_color, rotation: 0, crop: None, budget: 384 << 20 }
+        Self { shared, explicit_color, rotation: 0, crop: None, budget: cache_budget() }
     }
 
     /// Turn every decoded frame clockwise by `quarter_turns` × 90° (the container's display

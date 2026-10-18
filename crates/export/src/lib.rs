@@ -902,6 +902,34 @@ pub fn register_encoder(f: EncoderFactory) {
     }
 }
 
+/// Create the video encoder for `settings.video_format()` at `width` x `height` and `rate`, without
+/// a project or sequence: the entry point for library users that feed their own frames (the
+/// `filmcraft-lib` facade). Registered factories (hardware encoders) are tried first.
+///
+/// The settings must already carry the derived values the exporter bakes in
+/// (`bitrate_kbps`, `max_bitrate_kbps`, `keyframe_distance`).
+pub fn create_video_encoder(settings: &ExportSettings, width: u32, height: u32, rate: FrameRate) -> Result<Box<dyn VideoEncoder>> {
+    if width == 0 || height == 0 || rate.num <= 0 || rate.den <= 0 {
+        return Err(ExportError::Unsupported("video size and frame rate must be positive".into()));
+    }
+    video_factories()
+        .read()
+        .unwrap_or_else(|e| e.into_inner())
+        .iter()
+        .find_map(|fac| fac(settings.video_format(), width, height, rate, settings))
+        .ok_or_else(|| ExportError::Unsupported(format!("{} encoder not available yet", settings.video_format().label())))?
+}
+
+/// Create the AAC audio encoder for `settings.audio` at `sample_rate` and `channels` (library entry
+/// point, see [`create_video_encoder`]).
+pub fn create_audio_encoder(settings: &ExportSettings, sample_rate: u32, channels: u32) -> Result<Box<dyn AudioEncoder>> {
+    if sample_rate == 0 || channels == 0 {
+        return Err(ExportError::Unsupported("audio sample rate and channel count must be positive".into()));
+    }
+    let found = audio_factories().read().unwrap_or_else(|e| e.into_inner()).iter().find_map(|f| f(settings.format, sample_rate, channels, settings));
+    found.ok_or_else(|| ExportError::Unsupported("AAC encoder not available".into()))?
+}
+
 /// Whether `f` is among the registered video encoder factories (startup diagnostics, tests).
 pub fn encoder_registered(f: EncoderFactory) -> bool {
     video_factories().read().unwrap_or_else(|e| e.into_inner()).iter().any(|x| std::ptr::fn_addr_eq(*x, f))
