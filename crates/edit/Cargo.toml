@@ -1,21 +1,29 @@
 [package]
 name = "filmcraft-edit"
 description = "Pure timeline edit algebra: insert, overwrite, razor, ripple, roll, slip, slide, rate stretch, lift, extract"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [dependencies]
-filmcraft-time = { workspace = true }
-filmcraft-project = { workspace = true }
-thiserror = { workspace = true }
+filmcraft-time = { path = "../time" }
+filmcraft-project = { path = "../project" }
+thiserror = { version = "2" }
 
 [dev-dependencies]
-proptest = { workspace = true }
-filmcraft-geom = { workspace = true }
-filmcraft-media = { workspace = true }
-serde_json = { workspace = true }
+proptest = { version = "1" }
+filmcraft-geom = { path = "../geom" }
+filmcraft-media = { path = "../media" }
+serde_json = { version = "1" }

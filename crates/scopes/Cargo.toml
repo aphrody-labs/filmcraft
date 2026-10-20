@@ -1,17 +1,25 @@
 [package]
 name = "filmcraft-scopes"
 description = "Video scopes maths: waveform, parade, histogram and vectorscopes from a frame's R'G'B' values"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [dependencies]
-filmcraft-color = { workspace = true }
-serde = { workspace = true }
+filmcraft-color = { path = "../color" }
+serde = { version = "1", features = ["derive", "rc"] }
 
 [dev-dependencies]
-serde_json = { workspace = true }
+serde_json = { version = "1" }

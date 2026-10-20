@@ -115,7 +115,7 @@ pub async fn fetch_file(url: &str, name: Option<String>) -> Result<web_sys::File
     web_sys::File::new_with_blob_sequence(&parts, &name)
 }
 
-/// Install `window.filmcraft`.
+/// Install `window.aphrodyVideo` and its compatible `window.filmcraft` alias.
 pub fn install() -> Result<(), JsValue> {
     let obj = js_sys::Object::new();
     set_fn(
@@ -213,6 +213,7 @@ pub fn install() -> Result<(), JsValue> {
         .into_js_value(),
     )?;
     let w = web_sys::window().ok_or("no window")?;
+    js_sys::Reflect::set(&w, &"aphrodyVideo".into(), &obj)?;
     js_sys::Reflect::set(&w, &"filmcraft".into(), &obj)?;
     Ok(())
 }

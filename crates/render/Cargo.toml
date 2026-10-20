@@ -1,27 +1,35 @@
 [package]
 name = "filmcraft-render"
 description = "Sequence evaluation and CPU reference compositor (linear-light premultiplied f32)"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [dependencies]
-filmcraft-time = { workspace = true }
-filmcraft-geom = { workspace = true }
-filmcraft-color = { workspace = true }
-filmcraft-frame = { workspace = true }
-filmcraft-media = { workspace = true }
-filmcraft-project = { workspace = true }
-filmcraft-audio-dsp = { workspace = true }
-filmcraft-captions = { workspace = true }
-filmcraft-text = { workspace = true }
-rayon = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
+filmcraft-time = { path = "../time" }
+filmcraft-geom = { path = "../geom" }
+filmcraft-color = { path = "../color" }
+filmcraft-frame = { path = "../frame" }
+filmcraft-media = { path = "../media" }
+filmcraft-project = { path = "../project" }
+filmcraft-audio-dsp = { path = "../audio-dsp" }
+filmcraft-captions = { path = "../captions" }
+filmcraft-text = { path = "../text" }
+rayon = { version = "1" }
+serde = { version = "1", features = ["derive", "rc"] }
+serde_json = { version = "1" }
 
 [dev-dependencies]
 image = { version = "0.25", default-features = false, features = ["png"] }

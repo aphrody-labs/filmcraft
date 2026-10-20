@@ -1,13 +1,21 @@
 [package]
 name = "filmcraft-engine"
 description = "FilmCraft engine façade: session, command registry, history, media pool"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [features]
 default = []
@@ -19,34 +27,34 @@ speech-download = ["filmcraft-speech/download"]
 neural-voices = ["filmcraft-tts/kokoro", "speech-download"]
 
 [dependencies]
-filmcraft-time = { workspace = true }
-filmcraft-geom = { workspace = true }
-filmcraft-color = { workspace = true }
-filmcraft-frame = { workspace = true }
-filmcraft-media = { workspace = true }
-filmcraft-codecs = { workspace = true }
-filmcraft-project = { workspace = true }
-filmcraft-edit = { workspace = true }
-filmcraft-render = { workspace = true }
-filmcraft-scopes = { workspace = true }
-filmcraft-text = { workspace = true }
-filmcraft-audio-dsp = { workspace = true }
-filmcraft-export = { workspace = true }
-filmcraft-mxf = { workspace = true }
-filmcraft-format = { workspace = true }
-filmcraft-interchange = { workspace = true }
-filmcraft-captions = { workspace = true }
-filmcraft-speech = { workspace = true }
-filmcraft-tts = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-thiserror = { workspace = true }
-log = { workspace = true }
-craft-docpath = { workspace = true }
+filmcraft-time = { path = "../time" }
+filmcraft-geom = { path = "../geom" }
+filmcraft-color = { path = "../color" }
+filmcraft-frame = { path = "../frame" }
+filmcraft-media = { path = "../media" }
+filmcraft-codecs = { path = "../codecs" }
+filmcraft-project = { path = "../project" }
+filmcraft-edit = { path = "../edit" }
+filmcraft-render = { path = "../render" }
+filmcraft-scopes = { path = "../scopes" }
+filmcraft-text = { path = "../text" }
+filmcraft-audio-dsp = { path = "../audio-dsp" }
+filmcraft-export = { path = "../export" }
+filmcraft-mxf = { path = "../mxf" }
+filmcraft-format = { path = "../format" }
+filmcraft-interchange = { path = "../interchange" }
+filmcraft-captions = { path = "../captions" }
+filmcraft-speech = { path = "../speech" }
+filmcraft-tts = { path = "../tts" }
+serde = { version = "1", features = ["derive", "rc"] }
+serde_json = { version = "1" }
+thiserror = { version = "2" }
+log = { version = "0.4" }
+craft-docpath = { version = "0.1.0", git = "https://github.com/storytold/craft-libs", rev = "82a24b006eefa036b43c09a67fb9a3fbd17ffe63" }
 web-time = "1"
 
 [dev-dependencies]
-filmcraft-testkit = { workspace = true }
-filmcraft-dng = { workspace = true, features = ["writer"] }
-filmcraft-isobmff = { workspace = true }
+filmcraft-testkit = { path = "../testkit" }
+filmcraft-dng = { path = "../dng", features = ["writer"] }
+filmcraft-isobmff = { path = "../isobmff" }
 image = { version = "0.25", default-features = false, features = ["png", "gif"] }

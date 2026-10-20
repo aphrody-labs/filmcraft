@@ -1,39 +1,47 @@
 [package]
 name = "filmcraft-export"
 description = "Export pipeline: parallel render → encode → mux, presets, progress/cancel"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [dependencies]
-filmcraft-time = { workspace = true }
-filmcraft-frame = { workspace = true }
-filmcraft-color = { workspace = true }
-filmcraft-media = { workspace = true }
-filmcraft-project = { workspace = true }
-filmcraft-render = { workspace = true }
-filmcraft-audio-dsp = { workspace = true }
-filmcraft-geom = { workspace = true }
-filmcraft-text = { workspace = true }
-filmcraft-isobmff = { workspace = true }
-filmcraft-prores = { workspace = true }
-filmcraft-dnx = { workspace = true }
-filmcraft-apv = { workspace = true }
-filmcraft-mxf = { workspace = true }
-filmcraft-aac = { workspace = true }
-filmcraft-flac = { workspace = true }
-filmcraft-h264enc = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-thiserror = { workspace = true }
-rayon = { workspace = true }
+filmcraft-time = { path = "../time" }
+filmcraft-frame = { path = "../frame" }
+filmcraft-color = { path = "../color" }
+filmcraft-media = { path = "../media" }
+filmcraft-project = { path = "../project" }
+filmcraft-render = { path = "../render" }
+filmcraft-audio-dsp = { path = "../audio-dsp" }
+filmcraft-geom = { path = "../geom" }
+filmcraft-text = { path = "../text" }
+filmcraft-isobmff = { path = "../isobmff" }
+filmcraft-prores = { path = "../prores" }
+filmcraft-dnx = { path = "../dnx" }
+filmcraft-apv = { path = "../apv" }
+filmcraft-mxf = { path = "../mxf" }
+filmcraft-aac = { path = "../aac" }
+filmcraft-flac = { path = "../flac" }
+filmcraft-h264enc = { path = "../h264enc" }
+serde = { version = "1", features = ["derive", "rc"] }
+serde_json = { version = "1" }
+thiserror = { version = "2" }
+rayon = { version = "1" }
 web-time = "1"
 image = { version = "0.25", default-features = false, features = ["png", "jpeg", "gif", "tiff", "bmp"] }
 
 [dev-dependencies]
-filmcraft-testkit = { workspace = true }
-filmcraft-codecs = { workspace = true }
+filmcraft-testkit = { path = "../testkit" }
+filmcraft-codecs = { path = "../codecs" }

@@ -1,14 +1,22 @@
 [package]
 name = "filmcraft"
 description = "FilmCraft desktop app"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
 default-run = "filmcraft"
 build = "build.rs"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [features]
 default = []
@@ -18,19 +26,19 @@ whisper = ["filmcraft-engine/whisper", "filmcraft-engine/speech-download"]
 neural-voices = ["filmcraft-engine/neural-voices"]
 
 [dependencies]
-filmcraft-engine = { workspace = true }
-filmcraft-export = { workspace = true }
-filmcraft-project = { workspace = true }
-filmcraft-render = { workspace = true }
-filmcraft-time = { workspace = true }
-filmcraft-gpu = { workspace = true }
-filmcraft-ui-egui = { workspace = true }
-filmcraft-platform = { workspace = true }
-egui = { workspace = true }
-eframe = { workspace = true, features = ["default_fonts", "wgpu", "accesskit", "wayland", "x11"] }
-serde_json = { workspace = true }
-log = { workspace = true }
-rfd = { workspace = true }
+filmcraft-engine = { path = "../../crates/engine" }
+filmcraft-export = { path = "../../crates/export" }
+filmcraft-project = { path = "../../crates/project" }
+filmcraft-render = { path = "../../crates/render" }
+filmcraft-time = { path = "../../crates/time" }
+filmcraft-gpu = { path = "../../crates/gpu" }
+filmcraft-ui-egui = { path = "../../crates/ui-egui" }
+filmcraft-platform = { path = "../../crates/platform" }
+egui = { version = "0.36" }
+eframe = { version = "0.36", default-features = false, features = ["default_fonts", "wgpu", "accesskit", "wayland", "x11"] }
+serde_json = { version = "1" }
+log = { version = "0.4" }
+rfd = { version = "0.17" }
 cpal = "0.16"
 # Files and images on the system clipboard for Paste (#611); egui already uses it for text.
 arboard = "3"

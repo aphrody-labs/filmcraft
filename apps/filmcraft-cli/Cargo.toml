@@ -1,12 +1,20 @@
 [package]
 name = "filmcraft-cli"
 description = "FilmCraft headless CLI and MCP server"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [[bin]]
 name = "filmcraft-cli"
@@ -18,21 +26,21 @@ default = []
 whisper = ["filmcraft-engine/whisper", "filmcraft-engine/speech-download"]
 
 [dependencies]
-filmcraft-engine = { workspace = true }
-filmcraft-export = { workspace = true }
-filmcraft-project = { workspace = true }
-filmcraft-render = { workspace = true }
-filmcraft-time = { workspace = true }
-filmcraft-gpu = { workspace = true }
-filmcraft-media = { workspace = true }
-filmcraft-codecs = { workspace = true }
-filmcraft-platform = { workspace = true }
-filmcraft-mxf = { workspace = true }
-filmcraft-mpegts = { workspace = true }
-filmcraft-ogg = { workspace = true }
-filmcraft-automation = { workspace = true }
-serde_json = { workspace = true }
+filmcraft-engine = { path = "../../crates/engine" }
+filmcraft-export = { path = "../../crates/export" }
+filmcraft-project = { path = "../../crates/project" }
+filmcraft-render = { path = "../../crates/render" }
+filmcraft-time = { path = "../../crates/time" }
+filmcraft-gpu = { path = "../../crates/gpu" }
+filmcraft-media = { path = "../../crates/media" }
+filmcraft-codecs = { path = "../../crates/codecs" }
+filmcraft-platform = { path = "../../crates/platform" }
+filmcraft-mxf = { path = "../../crates/mxf" }
+filmcraft-mpegts = { path = "../../crates/mpegts" }
+filmcraft-ogg = { path = "../../crates/ogg" }
+filmcraft-automation = { path = "../../crates/automation" }
+serde_json = { version = "1" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 
 [dev-dependencies]
-filmcraft-testkit = { workspace = true }
+filmcraft-testkit = { path = "../../crates/testkit" }

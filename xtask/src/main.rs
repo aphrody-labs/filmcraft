@@ -132,7 +132,7 @@ fn workspace_crates(md: &Value) -> Vec<(String, Vec<String>)> {
         .as_array()
         .into_iter()
         .flatten()
-        .filter(|p| p["name"] != "xtask")
+        .filter(|p| p["name"].as_str().is_some_and(|name| name == "filmcraft" || name.starts_with("filmcraft-")))
         .map(|p| {
             let deps = p["dependencies"]
                 .as_array()
@@ -286,7 +286,7 @@ fn target_dir() -> std::path::PathBuf {
 fn web(args: &[String]) -> Result<(), String> {
     let dev = args.iter().any(|a| a == "--dev");
     let serve = args.iter().position(|a| a == "--serve").map(|i| args.get(i + 1).and_then(|p| p.parse::<u16>().ok()).unwrap_or(8765));
-    let profile = if dev { "dev" } else { "release" };
+    let profile = if dev { "filmcraft-dev" } else { "filmcraft" };
     let mut build = Command::new(env!("CARGO"));
     build.args(["build", "--target", "wasm32-unknown-unknown", "-p", "filmcraft-web", "--profile", profile]);
     run(&mut build)?;
@@ -301,7 +301,7 @@ fn web(args: &[String]) -> Result<(), String> {
             v.trim()
         ));
     }
-    let dir = if dev { "debug" } else { "release" };
+    let dir = profile;
     let wasm = target_dir().join("wasm32-unknown-unknown").join(dir).join("filmcraft_web.wasm");
     let dist = target_dir().join("web").join("dist");
     let _ = std::fs::remove_dir_all(&dist);

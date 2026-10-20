@@ -1,10 +1,12 @@
 [package]
 name = "xtask"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
 publish = false
 
 [dependencies]
-serde_json = { workspace = true }
-filmcraft-testkit = { workspace = true }
+serde_json = { version = "1" }
+filmcraft-testkit = { path = "../crates/testkit" }
+
+[lints]

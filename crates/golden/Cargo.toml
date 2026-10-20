@@ -1,28 +1,36 @@
 [package]
 name = "filmcraft-golden"
 description = "Golden-image tests for the CPU renderer/compositor and GPU-vs-CPU parity (test-only crate)"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 publish = false
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 # Test-only: the library is empty and everything is a dev-dependency, so the crate adds no edges
 # to the layer graph. Goldens live in `goldens/` (see docs/testing.md §3).
 [dependencies]
 
 [dev-dependencies]
-filmcraft-testkit = { workspace = true }
-filmcraft-color = { workspace = true }
-filmcraft-frame = { workspace = true }
-filmcraft-time = { workspace = true }
-filmcraft-geom = { workspace = true }
-filmcraft-media = { workspace = true }
-filmcraft-project = { workspace = true }
-filmcraft-render = { workspace = true }
-filmcraft-gpu = { workspace = true }
+filmcraft-testkit = { path = "../testkit" }
+filmcraft-color = { path = "../color" }
+filmcraft-frame = { path = "../frame" }
+filmcraft-time = { path = "../time" }
+filmcraft-geom = { path = "../geom" }
+filmcraft-media = { path = "../media" }
+filmcraft-project = { path = "../project" }
+filmcraft-render = { path = "../render" }
+filmcraft-gpu = { path = "../gpu" }
 pollster = "0.4"
 wgpu = { version = "30", features = ["wgsl", "metal", "vulkan", "dx12", "gles"] }

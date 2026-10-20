@@ -1,16 +1,24 @@
 [package]
 name = "filmcraft-mpegts"
 description = "Clean-room MPEG-2 Systems (ISO/IEC 13818-1) demuxer: Transport Stream (188-byte, 192-byte M2TS) and Program Stream (MPEG-1/2 PS, VOB, MOD)"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [dependencies]
-thiserror = { workspace = true }
+thiserror = { version = "2" }
 
 [dev-dependencies]
-filmcraft-testkit = { workspace = true }
+filmcraft-testkit = { path = "../testkit" }

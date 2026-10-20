@@ -1,13 +1,21 @@
 [package]
 name = "filmcraft-web"
 description = "FilmCraft in the browser (wasm32): eframe web runner, WebGPU/WebGL2, Blob media, OPFS, WebAudio, WebCodecs"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
 publish = false
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -15,19 +23,19 @@ crate-type = ["cdylib", "rlib"]
 # Everything is wasm32-only: on other targets this crate is empty (so `cargo test --workspace`
 # and clippy stay cheap). Build with `cargo xtask web` (see docs/web.md).
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-filmcraft-engine = { workspace = true }
-filmcraft-ui-egui = { workspace = true }
-filmcraft-media = { workspace = true }
-filmcraft-codecs = { workspace = true }
-filmcraft-frame = { workspace = true }
-filmcraft-color = { workspace = true }
-filmcraft-isobmff = { workspace = true }
-filmcraft-format = { workspace = true }
-filmcraft-time = { workspace = true }
-egui = { workspace = true }
-eframe = { workspace = true, features = ["default_fonts", "wgpu"] }
-serde_json = { workspace = true }
-log = { workspace = true }
+filmcraft-engine = { path = "../../crates/engine" }
+filmcraft-ui-egui = { path = "../../crates/ui-egui" }
+filmcraft-media = { path = "../../crates/media" }
+filmcraft-codecs = { path = "../../crates/codecs" }
+filmcraft-frame = { path = "../../crates/frame" }
+filmcraft-color = { path = "../../crates/color" }
+filmcraft-isobmff = { path = "../../crates/isobmff" }
+filmcraft-format = { path = "../../crates/format" }
+filmcraft-time = { path = "../../crates/time" }
+egui = { version = "0.36" }
+eframe = { version = "0.36", default-features = false, features = ["default_fonts", "wgpu"] }
+serde_json = { version = "1" }
+log = { version = "0.4" }
 wasm-bindgen = "=0.2.129"
 wasm-bindgen-futures = "0.4"
 js-sys = "0.3"

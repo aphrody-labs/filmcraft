@@ -1,7 +1,7 @@
 //! Design tokens. Every widget reads colours/sizes from [`Tokens`] so themes apply everywhere.
 //!
-//! The default theme follows the look of Premiere Pro's current dark UI (values measured from
-//! black-box screenshots, see `plan/premiere/02-ui-ux.md`); fonts are Inter + JetBrains Mono (OFL).
+//! Aphrody's Material 3 roles adapt the existing editor tokens; media and meter colours remain
+//! functional. Fonts are Inter + JetBrains Mono (OFL).
 
 use std::sync::Arc;
 
@@ -241,7 +241,7 @@ impl Tokens {
             gap: 4.0,
             tab_h: 32.0,
         };
-        match kind {
+        let editor = match kind {
             ThemeKind::Dark => dark,
             ThemeKind::Medium => Tokens {
                 app_bg: Color32::from_rgb(20, 20, 20),
@@ -330,7 +330,62 @@ impl Tokens {
                 tl_ruler_text: Color32::from_rgb(80, 80, 80),
                 ..dark
             },
-        }
+        };
+        editor.with_material_roles()
+    }
+
+    /// Role snapshot from the canonical Bun M3 `packages/m3-theme/tokens.css` (tonal-spot).
+    /// Keep the adapter here so every existing editor widget shares the same theme owner.
+    fn with_material_roles(mut self) -> Self {
+        let rgb = |hex: u32| Color32::from_rgb((hex >> 16) as u8, (hex >> 8) as u8, hex as u8);
+        let (surface, low, container, high, highest, text, muted, primary, selection, outline, error) =
+            if self.kind == ThemeKind::Light {
+                (0xfdf7ff, 0xf8f2fa, 0xf2ecf4, 0xece6ee, 0xe6e0e9, 0x1d1b20, 0x49454e, 0x65558f, 0xe9ddff, 0xcac4cf, 0xba1a1a)
+            } else {
+                (0x141218, 0x1d1b20, 0x211f24, 0x2b292f, 0x36343a, 0xe6e0e9, 0xcac4cf, 0xcfbdfe, 0x4d3d75, 0x49454e, 0xffb4ab)
+            };
+        self.app_bg = rgb(surface);
+        self.header_bg = rgb(low);
+        self.panel_bg = rgb(container);
+        self.tab_bg = rgb(low);
+        self.tab_text = rgb(muted);
+        self.tab_text_active = rgb(primary);
+        self.text = rgb(text);
+        self.text_dim = rgb(muted);
+        self.icon = rgb(muted);
+        self.icon_active = rgb(text);
+        self.focus = rgb(primary);
+        self.accent = rgb(primary);
+        self.accent_hover = rgb(primary);
+        self.hot_text = rgb(primary);
+        self.timecode = rgb(primary);
+        self.playhead = rgb(primary);
+        self.track_target = rgb(selection);
+        self.clip_selected_border = rgb(primary);
+        self.row_selected = rgb(selection);
+        self.pill_active_bg = rgb(selection);
+        self.clip_bar_bg = rgb(selection);
+        self.hover = rgb(high);
+        self.pressed = rgb(highest);
+        self.field_bg = rgb(low);
+        self.field_border = rgb(outline);
+        self.separator = rgb(outline);
+        self.row_alt = rgb(low);
+        self.control_surface = rgb(high);
+        self.control_well = rgb(low);
+        self.control_border = rgb(outline);
+        self.button_hover = rgb(highest);
+        self.button_border = rgb(outline);
+        self.tl_bg = rgb(surface);
+        self.tl_track_bg = rgb(low);
+        self.tl_track_bg_alt = rgb(container);
+        self.tl_header_bg = rgb(container);
+        self.tl_ruler_bg = rgb(low);
+        self.tl_ruler_text = rgb(muted);
+        self.danger = rgb(error);
+        self.radius = 8.0;
+        self.radius_sm = 4.0;
+        self
     }
 
     /// Settings ▸ Appearance on top of a theme: the highlight colour (selections, primary buttons,

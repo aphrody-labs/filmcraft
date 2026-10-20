@@ -4,35 +4,36 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>FilmCraft</title>
-  <link rel="icon" href="favicon.png" type="image/png">
+  <title>Aphrody Video</title>
+  <meta name="description" content="Aphrody Video — the complete Rust editing engine, running locally in WebAssembly with Bun.">
   <style>
-    html, body { margin: 0; height: 100%; overflow: hidden; background: #1b1c1f; }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: var(--md-sys-color-surface, #141218); }
     canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
     #loading {
       position: absolute; inset: 0; display: flex; flex-direction: column; gap: 14px;
-      align-items: center; justify-content: center; color: #c9c9cc;
+      align-items: center; justify-content: center; color: var(--md-sys-color-on-surface-variant, #cac4d0);
       font: 14px/1.4 system-ui, sans-serif; pointer-events: none;
     }
-    #loading img { width: 56px; height: 56px; }
-    #loading .err { color: #ff8a7a; white-space: pre-wrap; max-width: 70ch; pointer-events: auto; }
+    #loading .identity { font-size: 28px; font-weight: 600; color: var(--md-sys-color-on-surface, #e6e0e9); }
+    #loading .err { color: var(--md-sys-color-error, #ffb4ab); white-space: pre-wrap; max-width: 70ch; pointer-events: auto; }
     #fatal {
       position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
-      background: rgba(20, 20, 22, 0.88); color: #e6e6e8; font: 14px/1.45 system-ui, sans-serif; z-index: 10;
+      background: color-mix(in srgb, var(--md-sys-color-surface, #141218) 88%, transparent); color: var(--md-sys-color-on-surface, #e6e0e9); font: 14px/1.45 system-ui, sans-serif; z-index: 10;
     }
     #fatal.on { display: flex; }
-    #fatal .box { max-width: min(78ch, calc(100vw - 32px)); padding: 20px 24px; background: #26272b; border-radius: 8px; }
-    #fatal h1 { margin: 0 0 8px; font-size: 17px; color: #ff8a7a; }
-    #fatal pre { max-height: 40vh; overflow: auto; white-space: pre-wrap; font-size: 12px; color: #c9c9cc; }
-    #fatal button { font: inherit; padding: 6px 14px; border: 0; border-radius: 6px; background: #3b6fe0; color: #fff; cursor: pointer; }
+    #fatal .box { max-width: min(78ch, calc(100vw - 32px)); padding: 20px 24px; background: var(--md-sys-color-surface-container, #211f26); border-radius: 8px; }
+    #fatal h1 { margin: 0 0 8px; font-size: 17px; color: var(--md-sys-color-error, #ffb4ab); }
+    #fatal pre { max-height: 40vh; overflow: auto; white-space: pre-wrap; font-size: 12px; color: var(--md-sys-color-on-surface-variant, #cac4d0); }
+    #fatal button:focus-visible { outline: 3px solid var(--md-sys-color-primary, #cfbdfe); outline-offset: 3px; }
+    #fatal button { font: inherit; padding: 6px 14px; border: 0; border-radius: 6px; background: var(--md-sys-color-primary, #cfbdfe); color: var(--md-sys-color-on-primary, #36275d); cursor: pointer; }
   </style>
 </head>
 <body>
-  <canvas id="filmcraft_canvas"></canvas>
-  <div id="loading"><img src="favicon.png" alt=""><div id="status">Loading FilmCraft…</div></div>
+  <canvas id="filmcraft_canvas" aria-label="Aphrody Video editor"></canvas>
+  <div id="loading" role="status" aria-live="polite"><div class="identity">Aphrody Video</div><div id="status">Loading the editing engine…</div></div>
   <div id="fatal" role="alertdialog" aria-labelledby="fatal-title">
     <div class="box">
-      <h1 id="fatal-title">FilmCraft stopped working</h1>
+      <h1 id="fatal-title">Aphrody Video stopped working</h1>
       <div>Unsaved changes are kept in the browser every few seconds and come back when you reload.</div>
       <pre id="fatal-msg"></pre>
       <button id="fatal-reload" type="button">Reload</button>
@@ -86,7 +87,7 @@
         location.replace(location.pathname + "?" + params.toString().replace(/=(&|$)/g, "$1") + location.hash);
       } else {
         const s = document.getElementById("status");
-        if (s) { s.className = "err"; s.textContent = "FilmCraft failed to start:\n" + text; }
+        if (s) { s.className = "err"; s.textContent = "Aphrody Video failed to start:\n" + text; }
       }
       throw e;
     }

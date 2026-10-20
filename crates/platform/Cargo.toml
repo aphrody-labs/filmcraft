@@ -1,10 +1,10 @@
 [package]
 name = "filmcraft-platform"
 description = "OS media integration: hardware video decoding through the operating system's codecs (VideoToolbox on macOS, Media Foundation on Windows, VA-API and NVDEC on Linux), with transparent fallback to the pure-Rust decoders"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 
 # The one crate allowed to contain `unsafe` (OS media FFI; AGENTS.md §0.3, docs/adr/0001-platform-ffi.md).
 # The workspace lints, except that `unsafe_code` is `deny` instead of `forbid`: only the FFI modules
@@ -21,16 +21,16 @@ type_complexity = "allow"
 undocumented_unsafe_blocks = "deny"
 
 [dependencies]
-filmcraft-bitstream = { workspace = true }
-filmcraft-codecs = { workspace = true }
-filmcraft-color = { workspace = true }
-filmcraft-export = { workspace = true }
-filmcraft-frame = { workspace = true }
-filmcraft-h264 = { workspace = true }
-filmcraft-hevc = { workspace = true }
-filmcraft-isobmff = { workspace = true }
-filmcraft-time = { workspace = true }
-log = { workspace = true }
+filmcraft-bitstream = { path = "../bitstream" }
+filmcraft-codecs = { path = "../codecs" }
+filmcraft-color = { path = "../color" }
+filmcraft-export = { path = "../export" }
+filmcraft-frame = { path = "../frame" }
+filmcraft-h264 = { path = "../h264" }
+filmcraft-hevc = { path = "../hevc" }
+filmcraft-isobmff = { path = "../isobmff" }
+filmcraft-time = { path = "../time" }
+log = { version = "0.4" }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 objc2-core-foundation = "0.3.2"
@@ -59,8 +59,8 @@ windows = { version = "0.62", features = [
 libloading = "0.8"
 
 [dev-dependencies]
-filmcraft-testkit = { workspace = true }
-filmcraft-media = { workspace = true }
-filmcraft-frame = { workspace = true }
-filmcraft-project = { workspace = true }
-filmcraft-render = { workspace = true }
+filmcraft-testkit = { path = "../testkit" }
+filmcraft-media = { path = "../media" }
+filmcraft-frame = { path = "../frame" }
+filmcraft-project = { path = "../project" }
+filmcraft-render = { path = "../render" }

@@ -1,21 +1,29 @@
 [package]
 name = "filmcraft-apv"
 description = "Clean-room Advanced Professional Video (APV, IETF RFC 9924) decoder and encoder"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
 
 [features]
 default = ["threads"]
 threads = ["dep:rayon"]
 
 [dependencies]
-filmcraft-bitstream.workspace = true
-rayon = { workspace = true, optional = true }
-thiserror.workspace = true
+filmcraft-bitstream = { path = "../bitstream" }
+rayon = { version = "1", optional = true }
+thiserror = { version = "2" }
 
 [dev-dependencies]
-filmcraft-testkit.workspace = true
+filmcraft-testkit = { path = "../testkit" }
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+

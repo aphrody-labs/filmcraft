@@ -1,21 +1,29 @@
 [package]
 name = "filmcraft-format"
 description = "FilmCraft .fcproj files: schema versions + migrations, atomic saves, auto-save naming and rotation"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [dependencies]
-filmcraft-project = { workspace = true }
-filmcraft-media = { workspace = true }
-log = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-thiserror = { workspace = true }
+filmcraft-project = { path = "../project" }
+filmcraft-media = { path = "../media" }
+log = { version = "0.4" }
+serde = { version = "1", features = ["derive", "rc"] }
+serde_json = { version = "1" }
+thiserror = { version = "2" }
 
 [dev-dependencies]
-filmcraft-time = { workspace = true }
+filmcraft-time = { path = "../time" }

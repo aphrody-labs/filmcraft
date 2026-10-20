@@ -1,30 +1,38 @@
 [package]
 name = "filmcraft-gpu"
 description = "wgpu compositor: YUV/RGB layer sampling, linear-light premultiplied compositing in WGSL"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [dependencies]
-filmcraft-color = { workspace = true }
-filmcraft-frame = { workspace = true }
-filmcraft-geom = { workspace = true }
-filmcraft-project = { workspace = true }
-filmcraft-render = { workspace = true }
-filmcraft-time = { workspace = true }
+filmcraft-color = { path = "../color" }
+filmcraft-frame = { path = "../frame" }
+filmcraft-geom = { path = "../geom" }
+filmcraft-project = { path = "../project" }
+filmcraft-render = { path = "../render" }
+filmcraft-time = { path = "../time" }
 wgpu = { version = "30", default-features = false, features = ["wgsl"] }
-log = { workspace = true }
+log = { version = "0.4" }
 pollster = "0.4"
-rayon = { workspace = true }
+rayon = { version = "1" }
 
 [dev-dependencies]
 pollster = "0.4"
-filmcraft-export = { workspace = true }
+filmcraft-export = { path = "../export" }
 image = { version = "0.25", default-features = false, features = ["png"] }
 wgpu = { version = "30", features = ["wgsl", "metal", "vulkan", "dx12", "gles"] }
-filmcraft-media = { workspace = true }
-filmcraft-time = { workspace = true }
+filmcraft-media = { path = "../media" }
+filmcraft-time = { path = "../time" }

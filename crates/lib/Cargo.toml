@@ -1,17 +1,25 @@
 [package]
 name = "filmcraft-lib"
 description = "FilmCraft as a library: probe, decode, remux, segment and encode media through one documented facade, without the editor"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-rust-version.workspace = true
-repository.workspace = true
+version = "0.9.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
+repository = "https://github.com/storytold/filmcraft"
 keywords = ["video", "mp4", "matroska", "codec", "hls"]
 categories = ["multimedia::video", "multimedia::audio", "multimedia::encoding"]
 readme = "README.md"
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+too_many_arguments = "allow"
+needless_range_loop = "allow"
+type_complexity = "allow"
+
 
 [features]
 # Everything a media toolkit needs. Drop `default-features` and pick: `container` alone is a
@@ -25,20 +33,20 @@ container = ["dep:filmcraft-isobmff", "dep:filmcraft-matroska"]
 encode = ["container", "dep:filmcraft-export", "dep:filmcraft-frame", "dep:filmcraft-color", "dep:image", "dep:filmcraft-h264enc"]
 
 [dependencies]
-filmcraft-time = { workspace = true }
+filmcraft-time = { path = "../time" }
 web-time = "1"
-filmcraft-isobmff = { workspace = true, optional = true }
-filmcraft-matroska = { workspace = true, optional = true }
-filmcraft-codecs = { workspace = true, optional = true }
-filmcraft-media = { workspace = true, optional = true }
-filmcraft-frame = { workspace = true, optional = true }
-filmcraft-color = { workspace = true, optional = true }
-filmcraft-export = { workspace = true, optional = true }
-filmcraft-h264enc = { workspace = true, optional = true }
+filmcraft-isobmff = { path = "../isobmff", optional = true }
+filmcraft-matroska = { path = "../matroska", optional = true }
+filmcraft-codecs = { path = "../codecs", optional = true }
+filmcraft-media = { path = "../media", optional = true }
+filmcraft-frame = { path = "../frame", optional = true }
+filmcraft-color = { path = "../color", optional = true }
+filmcraft-export = { path = "../export", optional = true }
+filmcraft-h264enc = { path = "../h264enc", optional = true }
 image = { version = "0.25", default-features = false, features = ["gif", "png"], optional = true }
 
 [dev-dependencies]
-filmcraft-testkit = { workspace = true }
+filmcraft-testkit = { path = "../testkit" }
 
 [[test]]
 name = "container"
