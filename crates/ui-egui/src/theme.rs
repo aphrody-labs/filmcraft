@@ -355,8 +355,8 @@ impl Tokens {
         self.icon = rgb(muted);
         self.icon_active = rgb(text);
         self.focus = rgb(primary);
-        self.accent = rgb(primary);
-        self.accent_hover = rgb(primary);
+        self.accent = rgb(if self.kind == ThemeKind::Light { primary } else { selection });
+        self.accent_hover = self.accent;
         self.hot_text = rgb(primary);
         self.timecode = rgb(primary);
         self.playhead = rgb(primary);
@@ -523,8 +523,8 @@ pub fn apply_visuals(ctx: &egui::Context, t: &Tokens) {
     v.extreme_bg_color = t.field_bg;
     v.faint_bg_color = t.row_alt;
     v.override_text_color = Some(t.text);
-    v.selection.bg_fill = t.accent;
-    v.selection.stroke = Stroke::new(1.0, Color32::WHITE);
+    v.selection.bg_fill = t.row_selected;
+    v.selection.stroke = Stroke::new(1.0, t.text);
     v.hyperlink_color = t.accent;
     v.window_stroke = Stroke::new(1.0, t.field_border);
     v.window_corner_radius = egui::CornerRadius::same(6);

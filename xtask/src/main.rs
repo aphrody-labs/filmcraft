@@ -484,6 +484,10 @@ fn root() -> std::path::PathBuf {
 }
 
 fn main() -> ExitCode {
+    if let Err(error) = std::env::set_current_dir(root()) {
+        eprintln!("cannot open the FilmCraft source directory: {error}");
+        return ExitCode::FAILURE;
+    }
     let task = std::env::args().nth(1).unwrap_or_default();
     let r = match task.as_str() {
         "layers" => layers(),
