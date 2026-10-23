@@ -18,8 +18,8 @@ type_complexity = "allow"
 
 
 [dependencies]
-filmcraft-engine = { path = "../engine" }
-filmcraft-time = { path = "../time" }
+filmcraft-engine = { path = "../engine", version = "0.9.0" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
 serde = { version = "1", features = ["derive", "rc"] }
 serde_json = { version = "1" }
 thiserror = { version = "2" }

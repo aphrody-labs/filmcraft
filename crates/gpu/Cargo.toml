@@ -18,12 +18,12 @@ type_complexity = "allow"
 
 
 [dependencies]
-filmcraft-color = { path = "../color" }
-filmcraft-frame = { path = "../frame" }
-filmcraft-geom = { path = "../geom" }
-filmcraft-project = { path = "../project" }
-filmcraft-render = { path = "../render" }
-filmcraft-time = { path = "../time" }
+filmcraft-color = { path = "../color", version = "0.9.0" }
+filmcraft-frame = { path = "../frame", version = "0.9.0" }
+filmcraft-geom = { path = "../geom", version = "0.9.0" }
+filmcraft-project = { path = "../project", version = "0.9.0" }
+filmcraft-render = { path = "../render", version = "0.9.0" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
 wgpu = { version = "30", default-features = false, features = ["wgsl"] }
 log = { version = "0.4" }
 pollster = "0.4"
@@ -31,8 +31,8 @@ rayon = { version = "1" }
 
 [dev-dependencies]
 pollster = "0.4"
-filmcraft-export = { path = "../export" }
+filmcraft-export = { path = "../export", version = "0.9.0" }
 image = { version = "0.25", default-features = false, features = ["png"] }
 wgpu = { version = "30", features = ["wgsl", "metal", "vulkan", "dx12", "gles"] }
-filmcraft-media = { path = "../media" }
-filmcraft-time = { path = "../time" }
+filmcraft-media = { path = "../media", version = "0.9.0" }
+filmcraft-time = { path = "../time", version = "0.9.0" }

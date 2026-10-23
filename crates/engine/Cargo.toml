@@ -27,34 +27,34 @@ speech-download = ["filmcraft-speech/download"]
 neural-voices = ["filmcraft-tts/kokoro", "speech-download"]
 
 [dependencies]
-filmcraft-time = { path = "../time" }
-filmcraft-geom = { path = "../geom" }
-filmcraft-color = { path = "../color" }
-filmcraft-frame = { path = "../frame" }
-filmcraft-media = { path = "../media" }
-filmcraft-codecs = { path = "../codecs" }
-filmcraft-project = { path = "../project" }
-filmcraft-edit = { path = "../edit" }
-filmcraft-render = { path = "../render" }
-filmcraft-scopes = { path = "../scopes" }
-filmcraft-text = { path = "../text" }
-filmcraft-audio-dsp = { path = "../audio-dsp" }
-filmcraft-export = { path = "../export" }
-filmcraft-mxf = { path = "../mxf" }
-filmcraft-format = { path = "../format" }
-filmcraft-interchange = { path = "../interchange" }
-filmcraft-captions = { path = "../captions" }
-filmcraft-speech = { path = "../speech" }
-filmcraft-tts = { path = "../tts" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
+filmcraft-geom = { path = "../geom", version = "0.9.0" }
+filmcraft-color = { path = "../color", version = "0.9.0" }
+filmcraft-frame = { path = "../frame", version = "0.9.0" }
+filmcraft-media = { path = "../media", version = "0.9.0" }
+filmcraft-codecs = { path = "../codecs", version = "0.9.0" }
+filmcraft-project = { path = "../project", version = "0.9.0" }
+filmcraft-edit = { path = "../edit", version = "0.9.0" }
+filmcraft-render = { path = "../render", version = "0.9.0" }
+filmcraft-scopes = { path = "../scopes", version = "0.9.0" }
+filmcraft-text = { path = "../text", version = "0.9.0" }
+filmcraft-audio-dsp = { path = "../audio-dsp", version = "0.9.0" }
+filmcraft-export = { path = "../export", version = "0.9.0" }
+filmcraft-mxf = { path = "../mxf", version = "0.9.0" }
+filmcraft-format = { path = "../format", version = "0.9.0" }
+filmcraft-interchange = { path = "../interchange", version = "0.9.0" }
+filmcraft-captions = { path = "../captions", version = "0.9.0" }
+filmcraft-speech = { path = "../speech", version = "0.9.0" }
+filmcraft-tts = { path = "../tts", version = "0.9.0" }
 serde = { version = "1", features = ["derive", "rc"] }
 serde_json = { version = "1" }
 thiserror = { version = "2" }
 log = { version = "0.4" }
-craft-docpath = { version = "0.1.0", git = "https://github.com/storytold/craft-libs", rev = "82a24b006eefa036b43c09a67fb9a3fbd17ffe63" }
+craft-docpath = { package = "filmcraft-docpath", path = "../craft-docpath", version = "0.1.0" }
 web-time = "1"
 
 [dev-dependencies]
 filmcraft-testkit = { path = "../testkit" }
-filmcraft-dng = { path = "../dng", features = ["writer"] }
-filmcraft-isobmff = { path = "../isobmff" }
+filmcraft-dng = { path = "../dng", features = ["writer"], version = "0.9.0" }
+filmcraft-isobmff = { path = "../isobmff", version = "0.9.0" }
 image = { version = "0.25", default-features = false, features = ["png", "gif"] }

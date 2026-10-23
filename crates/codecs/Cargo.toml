@@ -18,30 +18,30 @@ type_complexity = "allow"
 
 
 [dependencies]
-filmcraft-time = { path = "../time" }
-filmcraft-color = { path = "../color" }
-filmcraft-frame = { path = "../frame" }
-filmcraft-media = { path = "../media" }
-filmcraft-avi = { path = "../avi" }
-filmcraft-isobmff = { path = "../isobmff" }
-filmcraft-matroska = { path = "../matroska" }
-filmcraft-mxf = { path = "../mxf" }
-filmcraft-mpegts = { path = "../mpegts" }
-filmcraft-mpeg2v = { path = "../mpeg2v" }
-filmcraft-ac3 = { path = "../ac3" }
-filmcraft-mpa = { path = "../mpa" }
-filmcraft-ogg = { path = "../ogg" }
-filmcraft-bitstream = { path = "../bitstream" }
-filmcraft-h264 = { path = "../h264" }
-filmcraft-hevc = { path = "../hevc" }
-filmcraft-vp8 = { path = "../vp8" }
-filmcraft-vp9 = { path = "../vp9" }
-filmcraft-prores = { path = "../prores" }
-filmcraft-dnx = { path = "../dnx" }
-filmcraft-av1 = { path = "../av1" }
-filmcraft-apv = { path = "../apv" }
-filmcraft-aac = { path = "../aac" }
-filmcraft-opus = { path = "../opus" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
+filmcraft-color = { path = "../color", version = "0.9.0" }
+filmcraft-frame = { path = "../frame", version = "0.9.0" }
+filmcraft-media = { path = "../media", version = "0.9.0" }
+filmcraft-avi = { path = "../avi", version = "0.9.0" }
+filmcraft-isobmff = { path = "../isobmff", version = "0.9.0" }
+filmcraft-matroska = { path = "../matroska", version = "0.9.0" }
+filmcraft-mxf = { path = "../mxf", version = "0.9.0" }
+filmcraft-mpegts = { path = "../mpegts", version = "0.9.0" }
+filmcraft-mpeg2v = { path = "../mpeg2v", version = "0.9.0" }
+filmcraft-ac3 = { path = "../ac3", version = "0.9.0" }
+filmcraft-mpa = { path = "../mpa", version = "0.9.0" }
+filmcraft-ogg = { path = "../ogg", version = "0.9.0" }
+filmcraft-bitstream = { path = "../bitstream", version = "0.9.0" }
+filmcraft-h264 = { path = "../h264", version = "0.9.0" }
+filmcraft-hevc = { path = "../hevc", version = "0.9.0" }
+filmcraft-vp8 = { path = "../vp8", version = "0.9.0" }
+filmcraft-vp9 = { path = "../vp9", version = "0.9.0" }
+filmcraft-prores = { path = "../prores", version = "0.9.0" }
+filmcraft-dnx = { path = "../dnx", version = "0.9.0" }
+filmcraft-av1 = { path = "../av1", version = "0.9.0" }
+filmcraft-apv = { path = "../apv", version = "0.9.0" }
+filmcraft-aac = { path = "../aac", version = "0.9.0" }
+filmcraft-opus = { path = "../opus", version = "0.9.0" }
 rayon = { version = "1" }
 thiserror = { version = "2" }
 log = { version = "0.4" }

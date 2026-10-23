@@ -26,19 +26,19 @@ default = []
 whisper = ["filmcraft-engine/whisper", "filmcraft-engine/speech-download"]
 
 [dependencies]
-filmcraft-engine = { path = "../../crates/engine" }
-filmcraft-export = { path = "../../crates/export" }
-filmcraft-project = { path = "../../crates/project" }
-filmcraft-render = { path = "../../crates/render" }
-filmcraft-time = { path = "../../crates/time" }
-filmcraft-gpu = { path = "../../crates/gpu" }
-filmcraft-media = { path = "../../crates/media" }
-filmcraft-codecs = { path = "../../crates/codecs" }
-filmcraft-platform = { path = "../../crates/platform" }
-filmcraft-mxf = { path = "../../crates/mxf" }
-filmcraft-mpegts = { path = "../../crates/mpegts" }
-filmcraft-ogg = { path = "../../crates/ogg" }
-filmcraft-automation = { path = "../../crates/automation" }
+filmcraft-engine = { path = "../../crates/engine", version = "0.9.0" }
+filmcraft-export = { path = "../../crates/export", version = "0.9.0" }
+filmcraft-project = { path = "../../crates/project", version = "0.9.0" }
+filmcraft-render = { path = "../../crates/render", version = "0.9.0" }
+filmcraft-time = { path = "../../crates/time", version = "0.9.0" }
+filmcraft-gpu = { path = "../../crates/gpu", version = "0.9.0" }
+filmcraft-media = { path = "../../crates/media", version = "0.9.0" }
+filmcraft-codecs = { path = "../../crates/codecs", version = "0.9.0" }
+filmcraft-platform = { path = "../../crates/platform", version = "0.9.0" }
+filmcraft-mxf = { path = "../../crates/mxf", version = "0.9.0" }
+filmcraft-mpegts = { path = "../../crates/mpegts", version = "0.9.0" }
+filmcraft-ogg = { path = "../../crates/ogg", version = "0.9.0" }
+filmcraft-automation = { path = "../../crates/automation", version = "0.9.0" }
 serde_json = { version = "1" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 

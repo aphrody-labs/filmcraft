@@ -33,16 +33,16 @@ container = ["dep:filmcraft-isobmff", "dep:filmcraft-matroska"]
 encode = ["container", "dep:filmcraft-export", "dep:filmcraft-frame", "dep:filmcraft-color", "dep:image", "dep:filmcraft-h264enc"]
 
 [dependencies]
-filmcraft-time = { path = "../time" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
 web-time = "1"
-filmcraft-isobmff = { path = "../isobmff", optional = true }
-filmcraft-matroska = { path = "../matroska", optional = true }
-filmcraft-codecs = { path = "../codecs", optional = true }
-filmcraft-media = { path = "../media", optional = true }
-filmcraft-frame = { path = "../frame", optional = true }
-filmcraft-color = { path = "../color", optional = true }
-filmcraft-export = { path = "../export", optional = true }
-filmcraft-h264enc = { path = "../h264enc", optional = true }
+filmcraft-isobmff = { path = "../isobmff", optional = true, version = "0.9.0" }
+filmcraft-matroska = { path = "../matroska", optional = true, version = "0.9.0" }
+filmcraft-codecs = { path = "../codecs", optional = true, version = "0.9.0" }
+filmcraft-media = { path = "../media", optional = true, version = "0.9.0" }
+filmcraft-frame = { path = "../frame", optional = true, version = "0.9.0" }
+filmcraft-color = { path = "../color", optional = true, version = "0.9.0" }
+filmcraft-export = { path = "../export", optional = true, version = "0.9.0" }
+filmcraft-h264enc = { path = "../h264enc", optional = true, version = "0.9.0" }
 image = { version = "0.25", default-features = false, features = ["gif", "png"], optional = true }
 
 [dev-dependencies]

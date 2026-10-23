@@ -22,7 +22,7 @@ default = ["threads"]
 threads = ["dep:rayon"]
 
 [dependencies]
-filmcraft-bitstream = { path = "../bitstream" }
+filmcraft-bitstream = { path = "../bitstream", version = "0.9.0" }
 thiserror = { version = "2" }
 rayon = { version = "1", optional = true }
 

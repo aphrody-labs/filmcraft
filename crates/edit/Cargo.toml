@@ -18,12 +18,12 @@ type_complexity = "allow"
 
 
 [dependencies]
-filmcraft-time = { path = "../time" }
-filmcraft-project = { path = "../project" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
+filmcraft-project = { path = "../project", version = "0.9.0" }
 thiserror = { version = "2" }
 
 [dev-dependencies]
 proptest = { version = "1" }
-filmcraft-geom = { path = "../geom" }
-filmcraft-media = { path = "../media" }
+filmcraft-geom = { path = "../geom", version = "0.9.0" }
+filmcraft-media = { path = "../media", version = "0.9.0" }
 serde_json = { version = "1" }

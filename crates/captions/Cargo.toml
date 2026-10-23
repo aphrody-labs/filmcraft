@@ -18,10 +18,10 @@ type_complexity = "allow"
 
 
 [dependencies]
-filmcraft-time = { path = "../time" }
-filmcraft-color = { path = "../color" }
-filmcraft-project = { path = "../project" }
-filmcraft-text = { path = "../text" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
+filmcraft-color = { path = "../color", version = "0.9.0" }
+filmcraft-project = { path = "../project", version = "0.9.0" }
+filmcraft-text = { path = "../text", version = "0.9.0" }
 thiserror = { version = "2" }
 roxmltree = { version = "0.21" }
 

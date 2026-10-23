@@ -21,15 +21,15 @@ type_complexity = "allow"
 undocumented_unsafe_blocks = "deny"
 
 [dependencies]
-filmcraft-bitstream = { path = "../bitstream" }
-filmcraft-codecs = { path = "../codecs" }
-filmcraft-color = { path = "../color" }
-filmcraft-export = { path = "../export" }
-filmcraft-frame = { path = "../frame" }
-filmcraft-h264 = { path = "../h264" }
-filmcraft-hevc = { path = "../hevc" }
-filmcraft-isobmff = { path = "../isobmff" }
-filmcraft-time = { path = "../time" }
+filmcraft-bitstream = { path = "../bitstream", version = "0.9.0" }
+filmcraft-codecs = { path = "../codecs", version = "0.9.0" }
+filmcraft-color = { path = "../color", version = "0.9.0" }
+filmcraft-export = { path = "../export", version = "0.9.0" }
+filmcraft-frame = { path = "../frame", version = "0.9.0" }
+filmcraft-h264 = { path = "../h264", version = "0.9.0" }
+filmcraft-hevc = { path = "../hevc", version = "0.9.0" }
+filmcraft-isobmff = { path = "../isobmff", version = "0.9.0" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
 log = { version = "0.4" }
 
 [target.'cfg(target_os = "macos")'.dependencies]
@@ -60,7 +60,7 @@ libloading = "0.8"
 
 [dev-dependencies]
 filmcraft-testkit = { path = "../testkit" }
-filmcraft-media = { path = "../media" }
-filmcraft-frame = { path = "../frame" }
-filmcraft-project = { path = "../project" }
-filmcraft-render = { path = "../render" }
+filmcraft-media = { path = "../media", version = "0.9.0" }
+filmcraft-frame = { path = "../frame", version = "0.9.0" }
+filmcraft-project = { path = "../project", version = "0.9.0" }
+filmcraft-render = { path = "../render", version = "0.9.0" }

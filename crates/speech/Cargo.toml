@@ -25,8 +25,8 @@ whisper = ["dep:candle-core", "dep:candle-nn"]
 download = ["dep:ureq", "dep:rustls", "dep:rustls-rustcrypto", "dep:sha2"]
 
 [dependencies]
-filmcraft-time = { path = "../time" }
-filmcraft-project = { path = "../project" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
+filmcraft-project = { path = "../project", version = "0.9.0" }
 serde = { version = "1", features = ["derive", "rc"] }
 serde_json = { version = "1" }
 thiserror = { version = "2" }

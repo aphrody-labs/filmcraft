@@ -18,23 +18,23 @@ type_complexity = "allow"
 
 
 [dependencies]
-filmcraft-time = { path = "../time" }
-filmcraft-frame = { path = "../frame" }
-filmcraft-color = { path = "../color" }
-filmcraft-media = { path = "../media" }
-filmcraft-project = { path = "../project" }
-filmcraft-render = { path = "../render" }
-filmcraft-audio-dsp = { path = "../audio-dsp" }
-filmcraft-geom = { path = "../geom" }
-filmcraft-text = { path = "../text" }
-filmcraft-isobmff = { path = "../isobmff" }
-filmcraft-prores = { path = "../prores" }
-filmcraft-dnx = { path = "../dnx" }
-filmcraft-apv = { path = "../apv" }
-filmcraft-mxf = { path = "../mxf" }
-filmcraft-aac = { path = "../aac" }
-filmcraft-flac = { path = "../flac" }
-filmcraft-h264enc = { path = "../h264enc" }
+filmcraft-time = { path = "../time", version = "0.9.0" }
+filmcraft-frame = { path = "../frame", version = "0.9.0" }
+filmcraft-color = { path = "../color", version = "0.9.0" }
+filmcraft-media = { path = "../media", version = "0.9.0" }
+filmcraft-project = { path = "../project", version = "0.9.0" }
+filmcraft-render = { path = "../render", version = "0.9.0" }
+filmcraft-audio-dsp = { path = "../audio-dsp", version = "0.9.0" }
+filmcraft-geom = { path = "../geom", version = "0.9.0" }
+filmcraft-text = { path = "../text", version = "0.9.0" }
+filmcraft-isobmff = { path = "../isobmff", version = "0.9.0" }
+filmcraft-prores = { path = "../prores", version = "0.9.0" }
+filmcraft-dnx = { path = "../dnx", version = "0.9.0" }
+filmcraft-apv = { path = "../apv", version = "0.9.0" }
+filmcraft-mxf = { path = "../mxf", version = "0.9.0" }
+filmcraft-aac = { path = "../aac", version = "0.9.0" }
+filmcraft-flac = { path = "../flac", version = "0.9.0" }
+filmcraft-h264enc = { path = "../h264enc", version = "0.9.0" }
 serde = { version = "1", features = ["derive", "rc"] }
 serde_json = { version = "1" }
 thiserror = { version = "2" }
@@ -44,4 +44,4 @@ image = { version = "0.25", default-features = false, features = ["png", "jpeg",
 
 [dev-dependencies]
 filmcraft-testkit = { path = "../testkit" }
-filmcraft-codecs = { path = "../codecs" }
+filmcraft-codecs = { path = "../codecs", version = "0.9.0" }
