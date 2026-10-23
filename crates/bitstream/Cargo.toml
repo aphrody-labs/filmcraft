@@ -1,5 +1,6 @@
 [package]
 name = "filmcraft-bitstream"
+description = "Bit-level reading and writing shared by FilmCraft's codec crates, with Exp-Golomb codes."
 version = "0.9.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"

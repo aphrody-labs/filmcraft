@@ -1,5 +1,6 @@
 [package]
 name = "filmcraft-color"
+description = "Colour science for FilmCraft: YUV matrices, transfer functions, camera log curves, gamuts, tone mapping and LUTs."
 version = "0.9.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"

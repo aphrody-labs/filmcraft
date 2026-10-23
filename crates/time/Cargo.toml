@@ -1,5 +1,6 @@
 [package]
 name = "filmcraft-time"
+description = "Exact media time for FilmCraft: integer ticks, rational frame rates and timecode."
 version = "0.9.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
