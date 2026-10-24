@@ -13,3 +13,6 @@ unsafe_code = "forbid"
 [lints.clippy]
 dbg_macro = "warn"
 todo = "warn"
+
+[lib]
+name = "craft_docpath"
