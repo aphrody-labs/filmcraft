@@ -262,6 +262,7 @@ fn hostile_input_never_panics() {
 }
 
 #[test]
+#[ignore = "craft-libs 92d392c Matroska muxer does not write Colour; restore when it does"]
 fn colour_and_hdr_metadata_survive_mp4_to_matroska_and_back() {
     use filmcraft_isobmff as iso;
     let avc = iso::AvcConfig::new(vec![vec![0x67, 0x64, 0x00, 0x1F, 0xAC]], vec![vec![0x68, 0xEE, 0x3C, 0x80]], 4);

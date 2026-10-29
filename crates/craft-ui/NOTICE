@@ -1,3 +1,0 @@
-Vendored from https://github.com/storytold/craft-libs (crates/ui at 5c874d51eeb3de70e735c8ce87a59a7dedd47675).
-Copyright (c) 2026 ArtCraft Team and the craft-libs contributors. MIT OR Apache-2.0 (LICENSE-MIT, LICENSE-APACHE).
-Not vendored: the upstream tests that need egui_kittest (tests/docking_workflows.rs, tests/visual_regression.rs and the popup-label test of src/docking/tests.rs). egui_kittest brings a wgpu graph that re-resolves gpu-allocator onto a windows crate version that does not match wgpu-hal in this workspace.

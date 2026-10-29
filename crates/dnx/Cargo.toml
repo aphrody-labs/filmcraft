@@ -1,30 +1,22 @@
 [package]
 name = "filmcraft-dnx"
 description = "Clean-room Avid DNxHD / DNxHR (SMPTE ST 2019-1 VC-3) decoder and encoder"
-version = "0.9.0"
-edition = "2024"
-license = "MIT OR Apache-2.0"
-rust-version = "1.95"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
 
-[lints.rust]
-unsafe_code = "forbid"
-
-[lints.clippy]
-dbg_macro = "warn"
-todo = "warn"
-too_many_arguments = "allow"
-needless_range_loop = "allow"
-type_complexity = "allow"
-
+[lints]
+workspace = true
 
 [features]
 default = ["threads"]
 threads = ["dep:rayon"]
 
 [dependencies]
-filmcraft-bitstream = { path = "../bitstream", version = "0.9.0" }
-thiserror = { version = "2" }
-rayon = { version = "1", optional = true }
+filmcraft-bitstream = { workspace = true }
+thiserror = { workspace = true }
+rayon = { workspace = true, optional = true }
 
 [dev-dependencies]
-filmcraft-testkit = { path = "../testkit" }
+filmcraft-testkit = { workspace = true }

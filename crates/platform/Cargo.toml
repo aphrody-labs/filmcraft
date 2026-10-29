@@ -1,10 +1,10 @@
 [package]
 name = "filmcraft-platform"
 description = "OS media integration: hardware video decoding through the operating system's codecs (VideoToolbox on macOS, Media Foundation on Windows, VA-API and NVDEC on Linux), with transparent fallback to the pure-Rust decoders"
-version = "0.9.0"
-edition = "2024"
-license = "MIT OR Apache-2.0"
-rust-version = "1.95"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
 
 # The one crate allowed to contain `unsafe` (OS media FFI; AGENTS.md §0.3, docs/adr/0001-platform-ffi.md).
 # The workspace lints, except that `unsafe_code` is `deny` instead of `forbid`: only the FFI modules
@@ -13,24 +13,26 @@ rust-version = "1.95"
 unsafe_code = "deny"
 
 [lints.clippy]
+cognitive_complexity = "deny"
+too_many_arguments = "deny"
+wildcard_imports = "deny"
 dbg_macro = "warn"
 todo = "warn"
-too_many_arguments = "allow"
 needless_range_loop = "allow"
 type_complexity = "allow"
 undocumented_unsafe_blocks = "deny"
 
 [dependencies]
-filmcraft-bitstream = { path = "../bitstream", version = "0.9.0" }
-filmcraft-codecs = { path = "../codecs", version = "0.9.0" }
-filmcraft-color = { path = "../color", version = "0.9.0" }
-filmcraft-export = { path = "../export", version = "0.9.0" }
-filmcraft-frame = { path = "../frame", version = "0.9.0" }
-filmcraft-h264 = { path = "../h264", version = "0.9.0" }
-filmcraft-hevc = { path = "../hevc", version = "0.9.0" }
-filmcraft-isobmff = { path = "../isobmff", version = "0.9.0" }
-filmcraft-time = { path = "../time", version = "0.9.0" }
-log = { version = "0.4" }
+filmcraft-bitstream = { workspace = true }
+filmcraft-codecs = { workspace = true }
+filmcraft-color = { workspace = true }
+filmcraft-export = { workspace = true }
+filmcraft-frame = { workspace = true }
+filmcraft-h264 = { workspace = true }
+filmcraft-hevc = { workspace = true }
+filmcraft-isobmff = { workspace = true }
+filmcraft-time = { workspace = true }
+log = { workspace = true }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 objc2-core-foundation = "0.3.2"
@@ -59,8 +61,8 @@ windows = { version = "0.62", features = [
 libloading = "0.8"
 
 [dev-dependencies]
-filmcraft-testkit = { path = "../testkit" }
-filmcraft-media = { path = "../media", version = "0.9.0" }
-filmcraft-frame = { path = "../frame", version = "0.9.0" }
-filmcraft-project = { path = "../project", version = "0.9.0" }
-filmcraft-render = { path = "../render", version = "0.9.0" }
+filmcraft-testkit = { workspace = true }
+filmcraft-media = { workspace = true }
+filmcraft-frame = { workspace = true }
+filmcraft-project = { workspace = true }
+filmcraft-render = { workspace = true }

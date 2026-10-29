@@ -1,7 +1,7 @@
 [package]
 name = "filmcraft-lib"
 description = "FilmCraft as a library: probe, decode, remux, segment and encode media through one documented facade, without the editor"
-version = "0.9.0"
+version.workspace = true
 edition = "2024"
 license = "MIT OR Apache-2.0"
 rust-version = "1.95"
@@ -33,16 +33,16 @@ container = ["dep:filmcraft-isobmff", "dep:filmcraft-matroska"]
 encode = ["container", "dep:filmcraft-export", "dep:filmcraft-frame", "dep:filmcraft-color", "dep:image", "dep:filmcraft-h264enc"]
 
 [dependencies]
-filmcraft-time = { path = "../time", version = "0.9.0" }
+filmcraft-time = { path = "../time" }
 web-time = "1"
-filmcraft-isobmff = { path = "../isobmff", optional = true, version = "0.9.0" }
-filmcraft-matroska = { path = "../matroska", optional = true, version = "0.9.0" }
-filmcraft-codecs = { path = "../codecs", optional = true, version = "0.9.0" }
-filmcraft-media = { path = "../media", optional = true, version = "0.9.0" }
-filmcraft-frame = { path = "../frame", optional = true, version = "0.9.0" }
-filmcraft-color = { path = "../color", optional = true, version = "0.9.0" }
-filmcraft-export = { path = "../export", optional = true, version = "0.9.0" }
-filmcraft-h264enc = { path = "../h264enc", optional = true, version = "0.9.0" }
+filmcraft-isobmff = { path = "../isobmff", optional = true }
+filmcraft-matroska = { path = "../matroska", optional = true }
+filmcraft-codecs = { path = "../codecs", optional = true }
+filmcraft-media = { path = "../media", optional = true }
+filmcraft-frame = { path = "../frame", optional = true }
+filmcraft-color = { path = "../color", optional = true }
+filmcraft-export = { path = "../export", optional = true }
+filmcraft-h264enc = { path = "../h264enc", optional = true }
 image = { version = "0.25", default-features = false, features = ["gif", "png"], optional = true }
 
 [dev-dependencies]

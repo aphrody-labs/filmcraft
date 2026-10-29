@@ -1,30 +1,22 @@
 [package]
 name = "filmcraft-project"
 description = "FilmCraft document model: projects, bins, clips, sequences, tracks, effects, keyframes, markers"
-version = "0.9.0"
-edition = "2024"
-license = "MIT OR Apache-2.0"
-rust-version = "1.95"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
 
-[lints.rust]
-unsafe_code = "forbid"
-
-[lints.clippy]
-dbg_macro = "warn"
-todo = "warn"
-too_many_arguments = "allow"
-needless_range_loop = "allow"
-type_complexity = "allow"
-
+[lints]
+workspace = true
 
 [dependencies]
-filmcraft-time = { path = "../time", version = "0.9.0" }
-filmcraft-geom = { path = "../geom", version = "0.9.0" }
-filmcraft-color = { path = "../color", version = "0.9.0" }
-filmcraft-media = { path = "../media", version = "0.9.0" }
-serde = { version = "1", features = ["derive", "rc"] }
-serde_json = { version = "1" }
-thiserror = { version = "2" }
+filmcraft-time = { workspace = true }
+filmcraft-geom = { workspace = true }
+filmcraft-color = { workspace = true }
+filmcraft-media = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
 
 [dev-dependencies]
-proptest = { version = "1" }
+proptest = { workspace = true }

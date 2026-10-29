@@ -1,30 +1,23 @@
 [package]
 name = "filmcraft-automation"
 description = "MCP server (rmcp) over the FilmCraft engine, plus a bridge to the running app's control channel"
-version = "0.9.0"
-edition = "2024"
-license = "MIT OR Apache-2.0"
-rust-version = "1.95"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
 
-[lints.rust]
-unsafe_code = "forbid"
-
-[lints.clippy]
-dbg_macro = "warn"
-todo = "warn"
-too_many_arguments = "allow"
-needless_range_loop = "allow"
-type_complexity = "allow"
-
+[lints]
+workspace = true
 
 [dependencies]
-filmcraft-engine = { path = "../engine", version = "0.9.0" }
-filmcraft-time = { path = "../time", version = "0.9.0" }
-serde = { version = "1", features = ["derive", "rc"] }
-serde_json = { version = "1" }
-thiserror = { version = "2" }
+filmcraft-engine = { workspace = true }
+filmcraft-time = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
 rmcp = { version = "3.5", default-features = false, features = ["server", "macros", "transport-io"] }
-tokio = { version = "1", features = ["rt-multi-thread", "macros", "io-std", "sync", "net", "io-util", "time"] }
-base64 = "0.22"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "io-std", "sync", "net", "io-util", "time", "fs"] }
+base64 = "0.23"
 schemars = "1"
 image = { version = "0.25", default-features = false, features = ["png"] }
+tempfile = "3"

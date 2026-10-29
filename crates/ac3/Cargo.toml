@@ -1,24 +1,16 @@
 [package]
 name = "filmcraft-ac3"
 description = "Clean-room AC-3 and E-AC-3 (Dolby Digital / Dolby Digital Plus, ATSC A/52) audio decoder"
-version = "0.9.0"
-edition = "2024"
-license = "MIT OR Apache-2.0"
-rust-version = "1.95"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
 
-[lints.rust]
-unsafe_code = "forbid"
-
-[lints.clippy]
-dbg_macro = "warn"
-todo = "warn"
-too_many_arguments = "allow"
-needless_range_loop = "allow"
-type_complexity = "allow"
-
+[lints]
+workspace = true
 
 [dependencies]
-thiserror = { version = "2" }
+thiserror = { workspace = true }
 
 [dev-dependencies]
-filmcraft-testkit = { path = "../testkit" }
+filmcraft-testkit = { workspace = true }

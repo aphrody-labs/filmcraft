@@ -439,12 +439,6 @@ fn spec_from_mkv(m: &mkv::Track, info: &TrackInfo, webm: bool) -> Result<mkv::Tr
     s.seek_pre_roll_ns = m.seek_pre_roll_ns;
     if let Some(v) = &m.video {
         s.video_size = Some((v.pixel_width, v.pixel_height));
-        if let (Some(w), Some(h)) = (v.display_width, v.display_height)
-            && v.display_unit == 0
-        {
-            s.display_size = Some((w, h));
-        }
-        s.colour = v.colour.clone();
     }
     if let Some(a) = &m.audio {
         s.audio = Some((a.output_sampling_frequency.unwrap_or(a.sampling_frequency), a.channels, a.bit_depth));

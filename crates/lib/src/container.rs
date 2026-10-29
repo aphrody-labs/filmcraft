@@ -705,7 +705,7 @@ impl Demuxer {
                 info.height = v.pixel_height;
                 info.pixel_aspect = v.pixel_aspect();
                 info.rotation = v.display_rotation().map_or(0, |q| u16::from(q) * 90);
-                if let Some(c) = &v.colour {
+                if let Some(c) = &v.color {
                     info.color = Some(ColorSignal {
                         primaries: c.primaries.map_or(2, |x| x.min(255) as u16),
                         transfer: c.transfer_characteristics.map_or(2, |x| x.min(255) as u16),

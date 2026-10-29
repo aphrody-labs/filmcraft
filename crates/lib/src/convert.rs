@@ -11,7 +11,7 @@ use filmcraft_isobmff as iso;
 use filmcraft_matroska as mkv;
 use filmcraft_time::FrameRate;
 
-use crate::container::{ColorSignal, FrameIndex, HdrStatic, TrackInfo, TrackKind};
+use crate::container::{FrameIndex, TrackInfo, TrackKind};
 use crate::error::{Error, Result};
 use crate::source::{Adapter, ByteSource};
 
@@ -290,15 +290,6 @@ pub(crate) fn spec_from_entry(entry: &iso::SampleEntry, info: &TrackInfo, webm: 
         s.codec_private = private;
         let (w, h) = (info.width, info.height);
         s.video_size = Some((w, h));
-        if info.pixel_aspect.0 > 0 && info.pixel_aspect.1 > 0 && info.pixel_aspect != (1, 1) {
-            // display size w*n x h*d reduced: its ratio, with the coded size, gives the pixel aspect back exactly
-            let (dw, dh) = (u64::from(w) * u64::from(info.pixel_aspect.0), u64::from(h) * u64::from(info.pixel_aspect.1));
-            let g = gcd(dw, dh).max(1);
-            if let (Ok(dw), Ok(dh)) = (u32::try_from(dw / g), u32::try_from(dh / g)) {
-                s.display_size = Some((dw, dh));
-            }
-        }
-        s.colour = colour_from(info.color, info.hdr.as_ref());
         if let Some(FrameRate { num, den }) = info.frame_rate.filter(|_| info.constant_frame_rate)
             && num > 0
             && den > 0
@@ -359,32 +350,6 @@ pub(crate) fn spec_from_entry(entry: &iso::SampleEntry, info: &TrackInfo, webm: 
     Ok(spec)
 }
 
-fn colour_from(c: Option<ColorSignal>, hdr: Option<&HdrStatic>) -> Option<mkv::Colour> {
-    if c.is_none() && hdr.is_none() {
-        return None;
-    }
-    let mut o = mkv::Colour::default();
-    if let Some(c) = c {
-        o.primaries = Some(u64::from(c.primaries));
-        o.transfer_characteristics = Some(u64::from(c.transfer));
-        o.matrix_coefficients = Some(u64::from(c.matrix));
-        o.range = Some(if c.full_range { 2 } else { 1 });
-    }
-    if let Some(h) = hdr {
-        o.max_cll = h.max_cll.map(u64::from);
-        o.max_fall = h.max_fall.map(u64::from);
-        if let (Some(p), Some(w), Some(max), Some(min)) = (h.primaries, h.white_point, h.max_luminance, h.min_luminance) {
-            o.mastering = Some(mkv::MasteringMetadata {
-                primaries: p.map(|(x, y)| (f64::from(x), f64::from(y))),
-                white_point: (f64::from(w.0), f64::from(w.1)),
-                luminance_max: f64::from(max),
-                luminance_min: f64::from(min),
-            });
-        }
-    }
-    Some(o)
-}
-
 /// Whether a track of `kind` with codec `name` can be copied into WebM.
 pub(crate) fn webm_allows(name: &str, kind: TrackKind) -> bool {
     match kind {
@@ -392,8 +357,4 @@ pub(crate) fn webm_allows(name: &str, kind: TrackKind) -> bool {
         TrackKind::Audio => matches!(name, "opus" | "vorbis"),
         _ => false,
     }
-}
-
-fn gcd(a: u64, b: u64) -> u64 {
-    if b == 0 { a } else { gcd(b, a % b) }
 }
