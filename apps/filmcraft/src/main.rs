@@ -115,6 +115,10 @@ fn main() -> eframe::Result {
             std::process::exit(2);
         }
     };
+    #[cfg(feature = "gpui")]
+    if std::env::var_os("FILMCRAFT_UI").is_some_and(|v| v == "gpui") {
+        return run_gpui(&launch);
+    }
     let data_root = launch.data_dir.clone().or_else(default_data_dir);
     let log_dir = data_root.as_ref().map(|d| d.join(logging::LOG_DIR));
     log::info!("FilmCraft {} ({} {})", env!("CARGO_PKG_VERSION"), std::env::consts::OS, std::env::consts::ARCH);
@@ -676,6 +680,31 @@ fn prepare_dialog(dialog: filmcraft_ui_egui::native_dialogs::FileDialog) -> film
 #[cfg(target_os = "linux")]
 fn project_patterns() -> Vec<String> {
     file_filters::extensions(&["fcproj"])
+}
+
+/// The GPUI frontend: a session on the project (or media) named on the command line, else the
+/// demo project, in a GPUI window. No audio, control channel or auto-save yet.
+#[cfg(feature = "gpui")]
+fn run_gpui(launch: &Launch) -> eframe::Result {
+    let mut session = Session::default();
+    let (project, media) = args::project_and_media(&launch.files);
+    let opened = match project {
+        Some(p) => session.execute("file.open", json!({"path": p})),
+        None => session.execute("file.openDemoProject", json!({})),
+    };
+    if let Err(e) = opened {
+        log::error!("{e}");
+    }
+    if !media.is_empty()
+        && let Err(e) = session.execute("file.import", json!({"paths": media}))
+    {
+        log::error!("{e}");
+    }
+    if let Err(e) = filmcraft_ui_gpui::run(session) {
+        log::error!("{e}");
+        std::process::exit(1);
+    }
+    Ok(())
 }
 
 #[cfg(test)]

@@ -114,6 +114,7 @@ Ranked; detail and "done when" in [docs/roadmap.md](docs/roadmap.md) and [docs/g
 
 ## Progress log
 
+- **2026-11-21:** native GPUI frontend started in `crates/ui-gpui`: Program monitor and Timeline (select, Razor cut, scrub, zoom, the engine's shortcut map) over the registered commands, tested with GPUI's test platform; design tokens moved to `crates/theme`, shared with the egui frontend. egui stays the default; per-panel state in [docs/ui-gpui-parity.md](docs/ui-gpui-parity.md)
 - **2026-10-22:** ProRes 4444 / XQ alpha slices include the final singleton run code required by RDD 36:2022. Six HD fixtures rejected by native macOS decoding now pass; syntax regression tests cover final runs and slice widths ([details](crates/prores/README.md#alpha-bitstream-conformance), EffectCraft #293).
 
 - **2026-10-20:** the on/off items of the Sequence and Markers menus (Snap in Timeline, Linked Selection, Selection Follows Playhead, Show Through Edits, Ripple Sequence Markers, Copy Paste Includes Sequence Markers) show their checkmark, so choosing one visibly turns it on or off (#2623)

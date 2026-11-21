@@ -16,6 +16,9 @@ default = []
 whisper = ["filmcraft-engine/whisper", "filmcraft-engine/speech-download"]
 # Natural Text to Speech voices (Kokoro-82M on the CPU, downloaded on first use).
 neural-voices = ["filmcraft-engine/neural-voices"]
+# The GPUI frontend (Program monitor and Timeline only so far; docs/ui-gpui-parity.md), started
+# with `FILMCRAFT_UI=gpui`. The egui frontend stays the default.
+gpui = ["dep:filmcraft-ui-gpui"]
 
 [dependencies]
 craft-control-protocol = { workspace = true }
@@ -26,6 +29,7 @@ filmcraft-render = { workspace = true }
 filmcraft-time = { workspace = true }
 filmcraft-gpu = { workspace = true }
 filmcraft-ui-egui = { workspace = true }
+filmcraft-ui-gpui = { workspace = true, optional = true }
 filmcraft-platform = { workspace = true }
 egui = { workspace = true }
 eframe = { workspace = true, features = ["default_fonts", "wgpu", "accesskit", "clipboard", "wayland", "x11"] }

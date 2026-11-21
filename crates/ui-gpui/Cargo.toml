@@ -1,0 +1,32 @@
+[package]
+name = "filmcraft-ui-gpui"
+description = "The FilmCraft GPUI frontend: window shell, panels, timeline and monitors over the engine's registered commands"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+filmcraft-engine = { workspace = true }
+filmcraft-time = { workspace = true }
+filmcraft-project = { workspace = true }
+filmcraft-render = { workspace = true }
+filmcraft-text = { workspace = true }
+filmcraft-theme = { workspace = true }
+gpui = { workspace = true }
+serde_json = { workspace = true }
+log = { workspace = true }
+image = { version = "0.25", default-features = false }
+
+[target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.dependencies]
+gpui_linux = { workspace = true }
+
+[dev-dependencies]
+gpui = { workspace = true, features = ["test-support"] }
+gpui_wgpu = { workspace = true, features = ["test-support"] }
+tempfile = "3"
+# the screenshot example writes a PNG
+image = { version = "0.25", default-features = false, features = ["png"] }

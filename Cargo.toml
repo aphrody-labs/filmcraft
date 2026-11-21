@@ -44,6 +44,7 @@ filmcraft-export = { path = "crates/export" }
 filmcraft-format = { path = "crates/format" }
 filmcraft-engine = { path = "crates/engine" }
 filmcraft-ui-egui = { path = "crates/ui-egui" }
+filmcraft-ui-gpui = { path = "crates/ui-gpui" }
 filmcraft-theme = { path = "crates/theme" }
 filmcraft-automation = { path = "crates/automation" }
 filmcraft-platform = { path = "crates/platform" }
@@ -104,6 +105,18 @@ egui_kittest = "0.37"
 craft-update = { git = "https://github.com/storytold/craft-libs", version = "=0.1.0", rev = "dc6adc3fbd9cf39e4a8210f94106a5b0c3e26e17", features = ["egui"] }
 rfd = "0.17"
 
+# gpui: the GPUI toolkit from aphrody-labs/aphrody (a Zed fork): `crates/gpui` and its Linux
+# platform crate for Linux, all Apache-2.0 (`LICENSE-APACHE` in each, checked at this commit). Pinned
+# to one commit of that repository; every crate below must stay on the same `rev`. This departs from
+# the "git dependencies come only from storytold" SHOULD of AGENTS.md: GPUI is not in storytold, and
+# its own pinned forks (accesskit, taffy, wgpu, cosmic-text) come from aphrody-labs through it.
+# `gpui_platform` is not used: it pulls `gpui_ios` -> `gpui_apple` -> `cbindgen` for every target,
+# and that needs `toml_datetime ^0.6.5` where `muda` -> `gtk` pins `=0.6.3`; so there is no macOS
+# GPUI build yet.
+gpui = { git = "https://github.com/aphrody-labs/aphrody", rev = "55fed79741b1e825f6a5d1e807c3c72946718cee", default-features = false }
+gpui_linux = { git = "https://github.com/aphrody-labs/aphrody", rev = "55fed79741b1e825f6a5d1e807c3c72946718cee", default-features = false, features = ["wayland", "x11"] }
+gpui_wgpu = { git = "https://github.com/aphrody-labs/aphrody", rev = "55fed79741b1e825f6a5d1e807c3c72946718cee" }
+
 [workspace.lints.rust]
 unsafe_code = "forbid"
 
@@ -161,3 +174,7 @@ eframe = { git = "https://github.com/storytold/egui.git", rev = "6d518fc79968157
 egui_demo_lib = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
 egui_inspection = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
 winit = { git = "https://github.com/storytold/winit.git", rev = "a517b3846ee8457d84ee4975110bfda6797c44dc" }
+# GPUI needs the forks its own workspace patches (a git dependency's patch table is ignored):
+# the async-task waker fix and the EGL fix of the Linux platform.
+async-task = { git = "https://github.com/smol-rs/async-task", rev = "41fd3359c75e221bd8b187a8ee361aa309c1714c" }
+khronos-egl = { git = "https://github.com/zed-industries/khronos-egl", rev = "42214b36347b108fd9630ca6254b96dde59e04fe" }

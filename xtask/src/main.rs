@@ -72,6 +72,7 @@ const LAYERS: &[(&str, u8)] = &[
     ("engine", 4),
     ("platform", 5),
     ("ui-egui", 5),
+    ("ui-gpui", 5),
     ("automation", 5),
     ("filmcraft", 6),
     ("cli", 6),
@@ -98,7 +99,7 @@ const SAME_LAYER: &[(&str, &str)] = &[
 ];
 
 /// Crates that must not appear below L5 (UI toolkits, windowing, OS audio/menus).
-const UI_ONLY: &[&str] = &["craft-ui", "egui", "eframe", "egui-wgpu", "winit", "rfd", "cpal", "muda"];
+const UI_ONLY: &[&str] = &["craft-ui", "egui", "eframe", "egui-wgpu", "winit", "rfd", "cpal", "muda", "gpui", "gpui_linux", "gpui_wgpu"];
 
 fn short(name: &str) -> &str {
     name.strip_prefix("filmcraft-").unwrap_or(name)
