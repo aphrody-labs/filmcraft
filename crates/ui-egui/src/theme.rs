@@ -6,43 +6,7 @@
 use std::sync::Arc;
 
 use egui::{Color32, FontData, FontDefinitions, FontFamily, FontId, Stroke, TextStyle, Visuals};
-use serde::{Deserialize, Serialize};
-
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
-pub enum ThemeKind {
-    /// Premiere-style darkest (default).
-    #[default]
-    Dark,
-    /// Slightly lighter grey panels (Premiere's brightness slider mid position).
-    Medium,
-    Light,
-}
-
-impl ThemeKind {
-    /// Settings ▸ Appearance ▸ Color Theme value (`darkest`, `dark`, `light`).
-    pub fn pref_name(self) -> &'static str {
-        match self {
-            ThemeKind::Dark => "darkest",
-            ThemeKind::Medium => "dark",
-            ThemeKind::Light => "light",
-        }
-    }
-    pub fn from_pref(s: &str) -> ThemeKind {
-        match s {
-            "dark" => ThemeKind::Medium,
-            "light" => ThemeKind::Light,
-            _ => ThemeKind::Dark,
-        }
-    }
-    pub fn from_name(s: &str) -> Option<ThemeKind> {
-        match s.to_ascii_lowercase().as_str() {
-            "dark" | "darkest" => Some(ThemeKind::Dark),
-            "medium" | "grey" | "gray" => Some(ThemeKind::Medium),
-            "light" => Some(ThemeKind::Light),
-            _ => None,
-        }
-    }
-}
+pub use filmcraft_theme::ThemeKind;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Tokens {
@@ -150,229 +114,202 @@ pub struct Tokens {
 }
 
 impl Tokens {
+    /// The theme's tokens in egui's colour type. The values live in `filmcraft-theme`.
     pub fn for_kind(kind: ThemeKind) -> Self {
-        // Measured from Premiere 26 "Darkest" (plan/premiere/02-ui-ux.md §1).
-        let dark = Tokens {
-            kind,
-            app_bg: Color32::from_rgb(0, 0, 0),
-            header_bg: Color32::from_rgb(0x1d, 0x1d, 0x1d),
-            panel_bg: Color32::from_rgb(0x1d, 0x1d, 0x1d),
-            tab_bg: Color32::from_rgb(0x1d, 0x1d, 0x1d),
-            tab_text: Color32::from_rgb(0xb0, 0xb0, 0xb0),
-            tab_text_active: Color32::from_rgb(0xd1, 0xd1, 0xd1),
-            focus: Color32::from_rgb(0x57, 0x94, 0xec),
-            accent: Color32::from_rgb(0x2f, 0x6b, 0xdf),
-            accent_hover: Color32::from_rgb(0x3f, 0x7c, 0xe8),
-            text: Color32::from_rgb(0xd1, 0xd1, 0xd1),
-            text_dim: Color32::from_rgb(0xb0, 0xb0, 0xb0),
-            text_faint: Color32::from_rgb(0x6e, 0x6e, 0x6e),
-            icon: Color32::from_rgb(0xb0, 0xb0, 0xb0),
-            icon_active: Color32::from_rgb(0xd1, 0xd1, 0xd1),
-            hover: Color32::from_rgb(0x2c, 0x2c, 0x2c),
-            pressed: Color32::from_rgb(0x4b, 0x4b, 0x4b),
-            field_bg: Color32::from_rgb(0x0e, 0x0e, 0x0e),
-            field_border: Color32::from_rgb(0x30, 0x30, 0x30),
-            separator: Color32::from_rgb(0x30, 0x30, 0x30),
-            row_alt: Color32::from_rgb(0x21, 0x21, 0x21),
-            row_selected: Color32::from_rgb(0x33, 0x33, 0x33),
-            hot_text: Color32::from_rgb(0x40, 0x96, 0xf3),
-            pill_active_bg: Color32::from_rgb(0x3a, 0x3a, 0x3a),
-            clip_bar_bg: Color32::from_rgb(58, 58, 70),
-            control_surface: Color32::from_rgb(0x24, 0x24, 0x24),
-            control_well: Color32::from_rgb(0x10, 0x10, 0x10),
-            control_border: Color32::from_rgb(0x50, 0x50, 0x50),
-            control_handle_bg: Color32::from_rgb(0x2a, 0x2a, 0x2a),
-            control_handle: Color32::from_rgb(0xe0, 0xe0, 0xe0),
-            control_handle_dim: Color32::from_rgb(0xb0, 0xb0, 0xb0),
-            plot_bg: Color32::from_rgb(0x18, 0x18, 0x18),
-            plot_grid: Color32::from_rgb(0x2c, 0x2c, 0x2c),
-            plot_axis: Color32::from_rgb(0x44, 0x44, 0x44),
-            plot_handle: Color32::from_rgb(0xe0, 0xe0, 0xe0),
-            plot_handle_dim: Color32::from_rgb(0x90, 0x90, 0x90),
-            meter_bg: Color32::BLACK,
-            meter_readout_bg: Color32::from_rgb(0x14, 0x14, 0x14),
-            meter_clip_off: Color32::from_rgb(0x30, 0x30, 0x30),
-            panner_bg: Color32::from_gray(22),
-            panner_border: Color32::from_gray(96),
-            panner_speaker: Color32::from_gray(144),
-            fader_knob: Color32::from_gray(90),
-            eq_track: Color32::from_gray(48),
-            eq_tick: Color32::from_gray(96),
-            eq_knob: Color32::from_gray(192),
-            eq_knob_active: Color32::from_gray(240),
-            eq_node: Color32::from_gray(232),
-            eq_node_off: Color32::from_gray(112),
-            crossover_handle: Color32::from_gray(255),
-            keyframe_plot_bg: Color32::from_gray(25),
-            keyframe_plot_grid: Color32::from_gray(42),
-            keyframe_plot_axis: Color32::from_gray(51),
-            keyframe_handle: Color32::from_gray(208),
-            switch_fill: Color32::from_gray(212),
-            switch_knob: Color32::from_gray(29),
-            switch_border: Color32::from_gray(138),
-            slider_disabled_track: Color32::from_gray(74),
-            slider_disabled_knob: Color32::from_gray(106),
-            button_hover: Color32::from_gray(42),
-            button_border: Color32::from_gray(75),
-            caption_track_bg: Color32::from_rgb(0x23, 0x20, 0x2a),
-            scroll_thumb: Color32::from_gray(0x4b),
-            scroll_thumb_hover: Color32::from_gray(0x6a),
-            vertical_scroll_thumb: Color32::from_gray(80),
-            disabled_clip_bg: Color32::from_gray(0x2a),
-            tl_bg: Color32::from_rgb(0x1d, 0x1d, 0x1d),
-            tl_track_bg: Color32::from_rgb(0x1d, 0x1d, 0x1d),
-            tl_track_bg_alt: Color32::from_rgb(0x1d, 0x1d, 0x1d),
-            tl_header_bg: Color32::from_rgb(0x1d, 0x1d, 0x1d),
-            tl_ruler_bg: Color32::from_rgb(0x1d, 0x1d, 0x1d),
-            tl_ruler_tick: Color32::from_rgb(0x8d, 0x8d, 0x8d),
-            tl_ruler_text: Color32::from_rgb(0xb0, 0xb0, 0xb0),
-            playhead: Color32::from_rgb(0x58, 0x95, 0xec),
-            track_target: Color32::from_rgb(0x26, 0x5b, 0xc1),
-            in_out_shade: Color32::from_rgb(0x3f, 0x3f, 0x3f),
-            clip_selected_border: Color32::from_rgb(0xeb, 0xeb, 0xeb),
-            render_red: Color32::from_rgb(0xe3, 0x48, 0x50),
-            render_yellow: Color32::from_rgb(0xf0, 0xf0, 0x4f),
-            render_green: Color32::from_rgb(0x2d, 0x9d, 0x78),
-            monitor_bg: Color32::from_rgb(0x1d, 0x1d, 0x1d),
-            timecode: Color32::from_rgb(0x40, 0x96, 0xf3),
-            danger: Color32::from_rgb(0xdc, 0x51, 0x3d),
-            radius: 0.0,
-            radius_sm: 4.0,
-            gap: 4.0,
-            tab_h: 32.0,
-        };
-        match kind {
-            ThemeKind::Dark => dark,
-            ThemeKind::Medium => Tokens {
-                app_bg: Color32::from_rgb(20, 20, 20),
-                header_bg: Color32::from_rgb(0x32, 0x32, 0x32),
-                panel_bg: Color32::from_rgb(0x32, 0x32, 0x32),
-                tab_bg: Color32::from_rgb(0x32, 0x32, 0x32),
-                field_bg: Color32::from_rgb(0x22, 0x22, 0x22),
-                tl_bg: Color32::from_rgb(0x32, 0x32, 0x32),
-                tl_track_bg: Color32::from_rgb(0x32, 0x32, 0x32),
-                tl_track_bg_alt: Color32::from_rgb(0x32, 0x32, 0x32),
-                tl_header_bg: Color32::from_rgb(0x32, 0x32, 0x32),
-                tl_ruler_bg: Color32::from_rgb(0x32, 0x32, 0x32),
-                monitor_bg: Color32::from_rgb(0x32, 0x32, 0x32),
-                row_alt: Color32::from_rgb(50, 50, 50),
-                hover: Color32::from_rgb(64, 64, 64),
-                ..dark
-            },
-            ThemeKind::Light => Tokens {
-                app_bg: Color32::from_rgb(180, 180, 180),
-                header_bg: Color32::from_rgb(214, 214, 214),
-                panel_bg: Color32::from_rgb(232, 232, 232),
-                tab_bg: Color32::from_rgb(232, 232, 232),
-                tab_text: Color32::from_rgb(90, 90, 90),
-                tab_text_active: Color32::from_rgb(20, 20, 20),
-                text: Color32::from_rgb(34, 34, 34),
-                text_dim: Color32::from_rgb(90, 90, 90),
-                text_faint: Color32::from_rgb(140, 140, 140),
-                icon: Color32::from_rgb(60, 60, 60),
-                hover: Color32::from_rgb(210, 210, 210),
-                pressed: Color32::from_rgb(196, 196, 196),
-                field_bg: Color32::from_rgb(250, 250, 250),
-                field_border: Color32::from_rgb(170, 170, 170),
-                separator: Color32::from_rgb(200, 200, 200),
-                row_alt: Color32::from_rgb(224, 224, 224),
-                row_selected: Color32::from_rgb(170, 200, 240),
-                pill_active_bg: Color32::from_rgb(196, 196, 196),
-                clip_bar_bg: Color32::from_rgb(190, 203, 224),
-                control_surface: Color32::from_rgb(218, 218, 218),
-                control_well: Color32::from_rgb(196, 196, 196),
-                control_border: Color32::from_rgb(150, 150, 150),
-                control_handle_bg: Color32::from_rgb(205, 205, 205),
-                control_handle: Color32::from_rgb(50, 50, 50),
-                control_handle_dim: Color32::from_rgb(85, 85, 85),
-                plot_bg: Color32::from_rgb(245, 245, 245),
-                plot_grid: Color32::from_rgb(210, 210, 210),
-                plot_axis: Color32::from_rgb(170, 170, 170),
-                plot_handle: Color32::from_rgb(50, 50, 50),
-                plot_handle_dim: Color32::from_rgb(100, 100, 100),
-                meter_bg: Color32::from_rgb(205, 205, 205),
-                meter_readout_bg: Color32::from_rgb(218, 218, 218),
-                meter_clip_off: Color32::from_rgb(155, 155, 155),
-                panner_bg: Color32::from_gray(196),
-                panner_border: Color32::from_gray(150),
-                panner_speaker: Color32::from_gray(100),
-                fader_knob: Color32::from_gray(140),
-                eq_track: Color32::from_gray(196),
-                eq_tick: Color32::from_gray(150),
-                eq_knob: Color32::from_gray(85),
-                eq_knob_active: Color32::from_gray(34),
-                eq_node: Color32::from_gray(50),
-                eq_node_off: Color32::from_gray(140),
-                crossover_handle: Color32::from_gray(50),
-                keyframe_plot_bg: Color32::from_gray(245),
-                keyframe_plot_grid: Color32::from_gray(210),
-                keyframe_plot_axis: Color32::from_gray(170),
-                keyframe_handle: Color32::from_gray(50),
-                switch_fill: Color32::from_gray(60),
-                switch_knob: Color32::from_gray(232),
-                switch_border: Color32::from_gray(110),
-                slider_disabled_track: Color32::from_gray(190),
-                slider_disabled_knob: Color32::from_gray(140),
-                button_hover: Color32::from_gray(210),
-                button_border: Color32::from_gray(170),
-                icon_active: Color32::from_rgb(34, 34, 34),
-                caption_track_bg: Color32::from_rgb(222, 215, 233),
-                scroll_thumb: Color32::from_gray(150),
-                scroll_thumb_hover: Color32::from_gray(130),
-                vertical_scroll_thumb: Color32::from_gray(150),
-                disabled_clip_bg: Color32::from_gray(190),
-                in_out_shade: Color32::from_gray(185),
-                tl_bg: Color32::from_rgb(210, 210, 210),
-                tl_track_bg: Color32::from_rgb(222, 222, 222),
-                tl_track_bg_alt: Color32::from_rgb(228, 228, 228),
-                tl_header_bg: Color32::from_rgb(214, 214, 214),
-                tl_ruler_bg: Color32::from_rgb(226, 226, 226),
-                tl_ruler_text: Color32::from_rgb(80, 80, 80),
-                ..dark
-            },
+        Self::from_neutral(&filmcraft_theme::Tokens::for_kind(kind))
+    }
+
+    fn from_neutral(n: &filmcraft_theme::Tokens) -> Self {
+        let c = |c: filmcraft_theme::Rgba| Color32::from_rgba_unmultiplied(c.r, c.g, c.b, c.a);
+        Tokens {
+            kind: n.kind,
+            app_bg: c(n.app_bg),
+            header_bg: c(n.header_bg),
+            panel_bg: c(n.panel_bg),
+            tab_bg: c(n.tab_bg),
+            tab_text: c(n.tab_text),
+            tab_text_active: c(n.tab_text_active),
+            focus: c(n.focus),
+            accent: c(n.accent),
+            accent_hover: c(n.accent_hover),
+            text: c(n.text),
+            text_dim: c(n.text_dim),
+            text_faint: c(n.text_faint),
+            icon: c(n.icon),
+            icon_active: c(n.icon_active),
+            hover: c(n.hover),
+            pressed: c(n.pressed),
+            field_bg: c(n.field_bg),
+            field_border: c(n.field_border),
+            separator: c(n.separator),
+            row_alt: c(n.row_alt),
+            row_selected: c(n.row_selected),
+            hot_text: c(n.hot_text),
+            pill_active_bg: c(n.pill_active_bg),
+            clip_bar_bg: c(n.clip_bar_bg),
+            control_surface: c(n.control_surface),
+            control_well: c(n.control_well),
+            control_border: c(n.control_border),
+            control_handle_bg: c(n.control_handle_bg),
+            control_handle: c(n.control_handle),
+            control_handle_dim: c(n.control_handle_dim),
+            plot_bg: c(n.plot_bg),
+            plot_grid: c(n.plot_grid),
+            plot_axis: c(n.plot_axis),
+            plot_handle: c(n.plot_handle),
+            plot_handle_dim: c(n.plot_handle_dim),
+            meter_bg: c(n.meter_bg),
+            meter_readout_bg: c(n.meter_readout_bg),
+            meter_clip_off: c(n.meter_clip_off),
+            panner_bg: c(n.panner_bg),
+            panner_border: c(n.panner_border),
+            panner_speaker: c(n.panner_speaker),
+            fader_knob: c(n.fader_knob),
+            eq_track: c(n.eq_track),
+            eq_tick: c(n.eq_tick),
+            eq_knob: c(n.eq_knob),
+            eq_knob_active: c(n.eq_knob_active),
+            eq_node: c(n.eq_node),
+            eq_node_off: c(n.eq_node_off),
+            crossover_handle: c(n.crossover_handle),
+            keyframe_plot_bg: c(n.keyframe_plot_bg),
+            keyframe_plot_grid: c(n.keyframe_plot_grid),
+            keyframe_plot_axis: c(n.keyframe_plot_axis),
+            keyframe_handle: c(n.keyframe_handle),
+            switch_fill: c(n.switch_fill),
+            switch_knob: c(n.switch_knob),
+            switch_border: c(n.switch_border),
+            slider_disabled_track: c(n.slider_disabled_track),
+            slider_disabled_knob: c(n.slider_disabled_knob),
+            button_hover: c(n.button_hover),
+            button_border: c(n.button_border),
+            caption_track_bg: c(n.caption_track_bg),
+            scroll_thumb: c(n.scroll_thumb),
+            scroll_thumb_hover: c(n.scroll_thumb_hover),
+            vertical_scroll_thumb: c(n.vertical_scroll_thumb),
+            disabled_clip_bg: c(n.disabled_clip_bg),
+            tl_bg: c(n.tl_bg),
+            tl_track_bg: c(n.tl_track_bg),
+            tl_track_bg_alt: c(n.tl_track_bg_alt),
+            tl_header_bg: c(n.tl_header_bg),
+            tl_ruler_bg: c(n.tl_ruler_bg),
+            tl_ruler_tick: c(n.tl_ruler_tick),
+            tl_ruler_text: c(n.tl_ruler_text),
+            playhead: c(n.playhead),
+            track_target: c(n.track_target),
+            in_out_shade: c(n.in_out_shade),
+            clip_selected_border: c(n.clip_selected_border),
+            render_red: c(n.render_red),
+            render_yellow: c(n.render_yellow),
+            render_green: c(n.render_green),
+            monitor_bg: c(n.monitor_bg),
+            timecode: c(n.timecode),
+            danger: c(n.danger),
+            radius: n.radius,
+            radius_sm: n.radius_sm,
+            gap: n.gap,
+            tab_h: n.tab_h,
+        }
+    }
+
+    fn to_neutral(self) -> filmcraft_theme::Tokens {
+        let c = |c: Color32| filmcraft_theme::Rgba { r: c.r(), g: c.g(), b: c.b(), a: c.a() };
+        filmcraft_theme::Tokens {
+            kind: self.kind,
+            app_bg: c(self.app_bg),
+            header_bg: c(self.header_bg),
+            panel_bg: c(self.panel_bg),
+            tab_bg: c(self.tab_bg),
+            tab_text: c(self.tab_text),
+            tab_text_active: c(self.tab_text_active),
+            focus: c(self.focus),
+            accent: c(self.accent),
+            accent_hover: c(self.accent_hover),
+            text: c(self.text),
+            text_dim: c(self.text_dim),
+            text_faint: c(self.text_faint),
+            icon: c(self.icon),
+            icon_active: c(self.icon_active),
+            hover: c(self.hover),
+            pressed: c(self.pressed),
+            field_bg: c(self.field_bg),
+            field_border: c(self.field_border),
+            separator: c(self.separator),
+            row_alt: c(self.row_alt),
+            row_selected: c(self.row_selected),
+            hot_text: c(self.hot_text),
+            pill_active_bg: c(self.pill_active_bg),
+            clip_bar_bg: c(self.clip_bar_bg),
+            control_surface: c(self.control_surface),
+            control_well: c(self.control_well),
+            control_border: c(self.control_border),
+            control_handle_bg: c(self.control_handle_bg),
+            control_handle: c(self.control_handle),
+            control_handle_dim: c(self.control_handle_dim),
+            plot_bg: c(self.plot_bg),
+            plot_grid: c(self.plot_grid),
+            plot_axis: c(self.plot_axis),
+            plot_handle: c(self.plot_handle),
+            plot_handle_dim: c(self.plot_handle_dim),
+            meter_bg: c(self.meter_bg),
+            meter_readout_bg: c(self.meter_readout_bg),
+            meter_clip_off: c(self.meter_clip_off),
+            panner_bg: c(self.panner_bg),
+            panner_border: c(self.panner_border),
+            panner_speaker: c(self.panner_speaker),
+            fader_knob: c(self.fader_knob),
+            eq_track: c(self.eq_track),
+            eq_tick: c(self.eq_tick),
+            eq_knob: c(self.eq_knob),
+            eq_knob_active: c(self.eq_knob_active),
+            eq_node: c(self.eq_node),
+            eq_node_off: c(self.eq_node_off),
+            crossover_handle: c(self.crossover_handle),
+            keyframe_plot_bg: c(self.keyframe_plot_bg),
+            keyframe_plot_grid: c(self.keyframe_plot_grid),
+            keyframe_plot_axis: c(self.keyframe_plot_axis),
+            keyframe_handle: c(self.keyframe_handle),
+            switch_fill: c(self.switch_fill),
+            switch_knob: c(self.switch_knob),
+            switch_border: c(self.switch_border),
+            slider_disabled_track: c(self.slider_disabled_track),
+            slider_disabled_knob: c(self.slider_disabled_knob),
+            button_hover: c(self.button_hover),
+            button_border: c(self.button_border),
+            caption_track_bg: c(self.caption_track_bg),
+            scroll_thumb: c(self.scroll_thumb),
+            scroll_thumb_hover: c(self.scroll_thumb_hover),
+            vertical_scroll_thumb: c(self.vertical_scroll_thumb),
+            disabled_clip_bg: c(self.disabled_clip_bg),
+            tl_bg: c(self.tl_bg),
+            tl_track_bg: c(self.tl_track_bg),
+            tl_track_bg_alt: c(self.tl_track_bg_alt),
+            tl_header_bg: c(self.tl_header_bg),
+            tl_ruler_bg: c(self.tl_ruler_bg),
+            tl_ruler_tick: c(self.tl_ruler_tick),
+            tl_ruler_text: c(self.tl_ruler_text),
+            playhead: c(self.playhead),
+            track_target: c(self.track_target),
+            in_out_shade: c(self.in_out_shade),
+            clip_selected_border: c(self.clip_selected_border),
+            render_red: c(self.render_red),
+            render_yellow: c(self.render_yellow),
+            render_green: c(self.render_green),
+            monitor_bg: c(self.monitor_bg),
+            timecode: c(self.timecode),
+            danger: c(self.danger),
+            radius: self.radius,
+            radius_sm: self.radius_sm,
+            gap: self.gap,
+            tab_h: self.tab_h,
         }
     }
 
     /// Settings ▸ Appearance on top of a theme: the highlight colour (selections, primary buttons,
     /// the focus outline, the playhead, timecodes, drag values and track targeting) and accessible
     /// colour contrast (brighter secondary text and borders).
-    pub fn with_appearance(mut self, highlight: Option<[u8; 3]>, accessible_contrast: bool) -> Self {
-        if let Some([r, g, b]) = highlight {
-            let c = Color32::from_rgb(r, g, b);
-            // A highlight of the user's own also colours the theme's other blues: the same hue, as
-            // much more or less saturated and bright as each of them is than the theme's highlight.
-            // The theme's own highlight leaves them exactly as designed.
-            if c != self.accent {
-                let tint = |s: f32, v: f32| {
-                    let mut h = egui::ecolor::HsvaGamma::from(c);
-                    h.s = (h.s * s).clamp(0.0, 1.0);
-                    h.v = (h.v * v).clamp(0.0, 1.0);
-                    Color32::from(h)
-                };
-                self.focus = tint(0.92, 1.06);
-                self.playhead = self.focus;
-                self.timecode = tint(0.98, 1.09);
-                self.hot_text = self.timecode;
-                self.track_target = tint(1.0, 0.865);
-            }
-            let lift = |v: u8| v.saturating_add(16);
-            self.accent = c;
-            self.accent_hover = Color32::from_rgb(lift(r), lift(g), lift(b));
-        }
-        if accessible_contrast {
-            if self.kind == ThemeKind::Light {
-                self.text_dim = Color32::from_rgb(40, 40, 40);
-                self.text_faint = Color32::from_rgb(80, 80, 80);
-                self.field_border = Color32::from_rgb(110, 110, 110);
-            } else {
-                self.text_dim = self.text;
-                self.text_faint = Color32::from_rgb(0xa8, 0xa8, 0xa8);
-                self.tab_text = self.tab_text_active;
-                self.field_border = Color32::from_rgb(0x6a, 0x6a, 0x6a);
-                self.separator = Color32::from_rgb(0x50, 0x50, 0x50);
-            }
-        }
-        self
+    pub fn with_appearance(self, highlight: Option<[u8; 3]>, accessible_contrast: bool) -> Self {
+        Self::from_neutral(&self.to_neutral().with_appearance(highlight, accessible_contrast))
     }
 
     /// Mono font for timecode.

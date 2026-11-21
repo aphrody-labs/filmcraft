@@ -28,7 +28,7 @@ Design principles:
  L3  render · gpu · export · golden (test-only)
  L2  edit · codecs · interchange · captions · speech · tts · tts-text
  L1  frame · media · project · audio-dsp · text
- L0  foundation: time · geom · color · bitstream · testkit (dev-dependency only)
+ L0  foundation: time · geom · color · bitstream · theme · testkit (dev-dependency only)
      codecs/containers: isobmff · matroska · cfb · dnx · dng · craft-media (avi · mpegts · mxf · ogg) · craft-video (h264 decoder and encoder · hevc · vp9 · av1 · mpeg2 · apv · prores decoder and encoder) · craft-audio (aac · ac3 · mpa · opus · flac · mp3 encoder)
 ```
 
@@ -38,6 +38,7 @@ and `filmcraft-cli`.
 | Crate | Layer | Purpose |
 |---|---|---|
 | `time` | L0 | `Tick`, `FrameRate`, `TimeRange`, timecode parse/format (NDF/DF, frames, feet+frames, samples): a re-export of `craft_timeline::time` from [craft-libs](https://github.com/storytold/craft-libs/tree/main/crates/timeline), where its code and tests live |
+| `theme` | L0 | toolkit-neutral design tokens (`Tokens`, `ThemeKind`, `Rgba`): the one source of colours and sizes for the egui and GPUI frontends |
 | `geom` | L0 | `Vec2`, `Rect`, `Affine`, Motion-transform composition |
 | `color` | L0 | colour spaces, transfer functions, YUV↔RGB matrices, LUTs |
 | `bitstream` | L0 | bit reader/writer, Exp-Golomb, emulation prevention |

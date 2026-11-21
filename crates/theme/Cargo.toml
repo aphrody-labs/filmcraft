@@ -1,0 +1,13 @@
+[package]
+name = "filmcraft-theme"
+description = "Toolkit-neutral FilmCraft design tokens (colours, sizes, themes) shared by every frontend"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { workspace = true }
